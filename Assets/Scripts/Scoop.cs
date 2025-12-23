@@ -7,10 +7,12 @@ public class Scoop : MonoBehaviour, IStageInitializable
     [field: SerializeField] public float WallThickness { get; set; } = 0.04f;
     [field: SerializeField] public float HandleLength { get; set; } = 0.35f;
     [field: SerializeField] public Vector2 SpawnOffset { get; set; } = new(0f, 0.6f);
+    [field: SerializeField] public float ScoopDensity { get; set; } = 1f;
 
     public PhysicsBody ScoopBody => _scoopBody;
     public Vector2 TipLocal => new(-ScoopSize.x * 0.5f, 0f);
     public Vector2 BaseLocal => new(ScoopSize.x * 0.5f, 0f);
+    public Vector2 HandleTipLocal => new(ScoopSize.x * 0.5f + HandleLength, 0f);
 
     PhysicsBody _scoopBody;
     (PolygonGeometry bottom, PolygonGeometry left, PolygonGeometry right, PolygonGeometry handle) _scoopGeometry;
@@ -64,9 +66,12 @@ public class Scoop : MonoBehaviour, IStageInitializable
         _scoopGeometry.right = PolygonGeometry.CreateBox(sideSize, 0f, xformRight);
         _scoopGeometry.handle = PolygonGeometry.CreateBox(handleSize, 0f, xformHandle);
 
-        _scoopBody.CreateShape(_scoopGeometry.bottom, PhysicsShapeDefinition.defaultDefinition);
-        _scoopBody.CreateShape(_scoopGeometry.left, PhysicsShapeDefinition.defaultDefinition);
-        _scoopBody.CreateShape(_scoopGeometry.right, PhysicsShapeDefinition.defaultDefinition);
-        _scoopBody.CreateShape(_scoopGeometry.handle, PhysicsShapeDefinition.defaultDefinition);
+        var shapeDef = PhysicsShapeDefinition.defaultDefinition;
+        shapeDef.density = ScoopDensity;
+
+        _scoopBody.CreateShape(_scoopGeometry.bottom, shapeDef);
+        _scoopBody.CreateShape(_scoopGeometry.left, shapeDef);
+        _scoopBody.CreateShape(_scoopGeometry.right, shapeDef);
+        _scoopBody.CreateShape(_scoopGeometry.handle, shapeDef);
     }
 }

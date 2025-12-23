@@ -8,6 +8,7 @@ public class BallFill : MonoBehaviour, IStageInitializable
     [field: SerializeField] public int BallsPerAxis { get; set; } = 8;
     [field: SerializeField] public float BallRadius { get; set; } = 0.04f;
     [field: SerializeField] public Vector2 BallPadding { get; set; } = new(0.01f, 0.01f);
+    [field: SerializeField] public float BallDensity { get; set; } = 1f;
 
     CircleGeometry _ballGeometry;
     readonly List<PhysicsBody> _ballBodies = new();
@@ -66,6 +67,7 @@ public class BallFill : MonoBehaviour, IStageInitializable
         bodyDef.type = PhysicsBody.BodyType.Dynamic;
 
         var shapeDef = PhysicsShapeDefinition.defaultDefinition;
+        shapeDef.density = BallDensity;
         _ballGeometry = new CircleGeometry { radius = BallRadius };
 
         for (var y = 0; y < BallsPerAxis; ++y)

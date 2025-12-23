@@ -222,6 +222,7 @@ MonoBehaviour:
   <WallThickness>k__BackingField: 0.02
   <HandleLength>k__BackingField: 0.2
   <SpawnOffset>k__BackingField: {x: 0, y: 0.6}
+  <ScoopDensity>k__BackingField: 1
 --- !u!1 &751942952
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,6 +303,7 @@ MonoBehaviour:
   <BallsPerAxis>k__BackingField: 40
   <BallRadius>k__BackingField: 0.01
   <BallPadding>k__BackingField: {x: 0.01, y: 0.01}
+  <BallDensity>k__BackingField: 1
 --- !u!4 &767570501
 Transform:
   m_ObjectHideFlags: 0
@@ -349,10 +351,10 @@ MonoBehaviour:
   <Scoop>k__BackingField: {fileID: 296814360}
   <Bucket>k__BackingField: {fileID: 751942955}
   <TargetCamera>k__BackingField: {fileID: 1411473418}
-  <MouseSpringFrequency>k__BackingField: 8
-  <MouseSpringDamping>k__BackingField: 0.7
-  <RimSpringFrequency>k__BackingField: 3
-  <RimSpringDamping>k__BackingField: 0.9
+  <MouseSpringFrequency>k__BackingField: 2.5
+  <MouseSpringDamping>k__BackingField: 1.2
+  <RimSpringFrequency>k__BackingField: 1
+  <RimSpringDamping>k__BackingField: 2
 --- !u!4 &1386073516
 Transform:
   m_ObjectHideFlags: 0

@@ -120,7 +120,7 @@ public class ScoopController : MonoBehaviour, IStageInitializable
         var jointDef = PhysicsDistanceJointDefinition.defaultDefinition;
         jointDef.bodyA = Scoop.ScoopBody;
         jointDef.bodyB = bucketBody;
-        jointDef.localAnchorA = new PhysicsTransform(Scoop.BaseLocal);
+        jointDef.localAnchorA = new PhysicsTransform(Scoop.HandleTipLocal);
         jointDef.localAnchorB = new PhysicsTransform(rimLocal);
         jointDef.distance = 0f;
         jointDef.enableSpring = true;
