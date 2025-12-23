@@ -3,11 +3,11 @@ using UnityEngine.LowLevelPhysics2D;
 
 public class Scoop : MonoBehaviour, IStageInitializable
 {
-    [field: SerializeField] public Vector2 ScoopSize { get; set; } = new(0.7f, 0.25f);
-    [field: SerializeField] public float WallThickness { get; set; } = 0.04f;
-    [field: SerializeField] public float HandleLength { get; set; } = 0.35f;
-    [field: SerializeField] public Vector2 SpawnOffset { get; set; } = new(0f, 0.6f);
-    [field: SerializeField] public float ScoopDensity { get; set; } = 1f;
+    [field:SerializeField] public Vector2 ScoopSize { get; set; } = new(0.7f, 0.25f);
+    [field:SerializeField] public float WallThickness { get; set; } = 0.04f;
+    [field:SerializeField] public float HandleLength { get; set; } = 0.35f;
+    [field:SerializeField] public Vector2 SpawnOffset { get; set; } = new(0f, 0.6f);
+    [field:SerializeField] public float ScoopDensity { get; set; } = 1f;
 
     public PhysicsBody ScoopBody => _scoopBody;
     public Vector2 TipLocal => new(-ScoopSize.x * 0.5f, 0f);

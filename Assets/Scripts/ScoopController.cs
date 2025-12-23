@@ -4,13 +4,13 @@ using UnityEngine.LowLevelPhysics2D;
 
 public class ScoopController : MonoBehaviour, IStageInitializable
 {
-    [field: SerializeField] public Scoop Scoop { get; set; }
-    [field: SerializeField] public Bucket Bucket { get; set; }
-    [field: SerializeField] public Camera TargetCamera { get; set; }
-    [field: SerializeField] public float MouseSpringFrequency { get; set; } = 8f;
-    [field: SerializeField] public float MouseSpringDamping { get; set; } = 0.7f;
-    [field: SerializeField] public float RimSpringFrequency { get; set; } = 3f;
-    [field: SerializeField] public float RimSpringDamping { get; set; } = 0.9f;
+    [field:SerializeField] public Scoop Scoop { get; set; }
+    [field:SerializeField] public Bucket Bucket { get; set; }
+    [field:SerializeField] public Camera TargetCamera { get; set; }
+    [field:SerializeField] public float MouseSpringFrequency { get; set; } = 8f;
+    [field:SerializeField] public float MouseSpringDamping { get; set; } = 0.7f;
+    [field:SerializeField] public float RimSpringFrequency { get; set; } = 3f;
+    [field:SerializeField] public float RimSpringDamping { get; set; } = 0.9f;
 
     PhysicsBody _mouseBody;
     PhysicsJoint _mouseJoint;
@@ -18,36 +18,8 @@ public class ScoopController : MonoBehaviour, IStageInitializable
 
     public void InitializeStage(StageManager stage)
     {
-        if (Scoop == null)
-        {
-            Debug.LogError("Scoop is missing.", this);
-            enabled = false;
-            return;
-        }
-
-        if (Bucket == null)
-        {
-            Debug.LogError("Bucket is missing.", this);
-            enabled = false;
-            return;
-        }
-
         if (TargetCamera == null)
             TargetCamera = Camera.main;
-
-        if (!Scoop.ScoopBody.isValid)
-        {
-            Debug.LogError("Scoop is not initialized.", this);
-            enabled = false;
-            return;
-        }
-
-        if (!Bucket.BucketBody.isValid)
-        {
-            Debug.LogError("Bucket is not initialized.", this);
-            enabled = false;
-            return;
-        }
 
         CreateMouseBody();
         CreateRimJoint();

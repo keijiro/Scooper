@@ -3,9 +3,9 @@ using UnityEngine.LowLevelPhysics2D;
 
 public class Bucket : MonoBehaviour, IStageInitializable
 {
-    [field: SerializeField] public Vector2 BucketSize { get; set; } = Vector2.one;
-    [field: SerializeField] public float WallThickness { get; set; } = 0.05f;
-    [field: SerializeField] public Vector2 BucketOffset { get; set; }
+    [field:SerializeField] public Vector2 BucketSize { get; set; } = Vector2.one;
+    [field:SerializeField] public float WallThickness { get; set; } = 0.05f;
+    [field:SerializeField] public Vector2 BucketOffset { get; set; }
 
     public PhysicsBody BucketBody => _bucketBody;
     public Vector2 BucketOrigin => (Vector2)transform.position + BucketOffset;

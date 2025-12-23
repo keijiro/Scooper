@@ -9,7 +9,7 @@ public interface IStageInitializable
 
 public class StageManager : MonoBehaviour
 {
-    [field: SerializeField] PhysicsWorldDefinition _worldDefinition = PhysicsWorldDefinition.defaultDefinition;
+    [field:SerializeField] PhysicsWorldDefinition _worldDefinition = PhysicsWorldDefinition.defaultDefinition;
     [SerializeField] MonoBehaviour[] _initializers = Array.Empty<MonoBehaviour>();
 
     public static PhysicsWorld World { get; private set; }

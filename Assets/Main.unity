@@ -550,7 +550,7 @@ MonoBehaviour:
     m_ContactSpeed: 3
     m_MaximumLinearSpeed: 400
     m_DrawOptions: 4256
-    m_DrawFillOptions: 7
+    m_DrawFillOptions: -1
     m_DrawThickness: 2
     m_DrawFillAlpha: 0.1
     m_DrawPointScale: 1
