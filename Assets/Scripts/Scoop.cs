@@ -26,27 +26,13 @@ public class Scoop : MonoBehaviour, IStageInitializable
             _scoopBody.Destroy();
     }
 
-    void Update()
-    {
-        if (!_scoopBody.isValid)
-            return;
-
-        var scoopDebugColor = new Color(0.9f, 0.6f, 0.2f, 1f);
-        var xform = _scoopBody.transform;
-        var world = StageManager.World;
-        world.DrawGeometry(_scoopGeometry.bottom, xform, scoopDebugColor);
-        world.DrawGeometry(_scoopGeometry.left, xform, scoopDebugColor);
-        world.DrawGeometry(_scoopGeometry.right, xform, scoopDebugColor);
-        world.DrawGeometry(_scoopGeometry.handle, xform, scoopDebugColor);
-    }
-
     void CreateScoop()
     {
         var bodyDef = PhysicsBodyDefinition.defaultDefinition;
         bodyDef.type = PhysicsBody.BodyType.Dynamic;
         bodyDef.position = (Vector2)transform.position + SpawnOffset;
 
-        _scoopBody = StageManager.World.CreateBody(bodyDef);
+        _scoopBody = PhysicsWorld.defaultWorld.CreateBody(bodyDef);
 
         var size = ScoopSize;
         var half = size * 0.5f;

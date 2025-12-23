@@ -35,7 +35,7 @@ public class BallFill : MonoBehaviour, IStageInitializable
             for (var x = 0; x < BallsPerAxis; ++x)
             {
                 bodyDef.position = min + new Vector2(step.x * x, step.y * y);
-                var body = StageManager.World.CreateBody(bodyDef);
+                var body = PhysicsWorld.defaultWorld.CreateBody(bodyDef);
                 body.CreateShape(_ballGeometry, shapeDef);
                 _ballBodies.Add(body);
             }
@@ -54,19 +54,4 @@ public class BallFill : MonoBehaviour, IStageInitializable
         _ballBodies.Clear();
     }
 
-    void Update()
-    {
-        if (_ballBodies.Count == 0)
-            return;
-
-        var ballDebugColor = new Color(0.95f, 0.9f, 0.2f, 1f);
-        for (var i = 0; i < _ballBodies.Count; ++i)
-        {
-            var body = _ballBodies[i];
-            if (!body.isValid)
-                continue;
-
-            StageManager.World.DrawGeometry(_ballGeometry, body.transform, ballDebugColor);
-        }
-    }
 }

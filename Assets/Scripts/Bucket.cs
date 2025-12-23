@@ -22,26 +22,13 @@ public class Bucket : MonoBehaviour, IStageInitializable
             _bucketBody.Destroy();
     }
 
-    void Update()
-    {
-        if (!_bucketBody.isValid)
-            return;
-
-        var bucketDebugColor = new Color(0.2f, 0.7f, 0.9f, 1f);
-        var xform = _bucketBody.transform;
-        var world = StageManager.World;
-        world.DrawGeometry(_bucketGeometry.bottom, xform, bucketDebugColor);
-        world.DrawGeometry(_bucketGeometry.left, xform, bucketDebugColor);
-        world.DrawGeometry(_bucketGeometry.right, xform, bucketDebugColor);
-    }
-
     void CreateBucket()
     {
         var bodyDef = PhysicsBodyDefinition.defaultDefinition;
         bodyDef.type = PhysicsBody.BodyType.Kinematic;
         bodyDef.position = BucketOrigin;
 
-        _bucketBody = StageManager.World.CreateBody(bodyDef);
+        _bucketBody = PhysicsWorld.defaultWorld.CreateBody(bodyDef);
 
         var size = BucketSize;
         var half = size * 0.5f;

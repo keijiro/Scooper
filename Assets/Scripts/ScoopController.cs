@@ -64,7 +64,7 @@ public class ScoopController : MonoBehaviour, IStageInitializable
         var bodyDef = PhysicsBodyDefinition.defaultDefinition;
         bodyDef.type = PhysicsBody.BodyType.Kinematic;
         bodyDef.position = Scoop.ScoopBody.transform.position;
-        _mouseBody = StageManager.World.CreateBody(bodyDef);
+        _mouseBody = PhysicsWorld.defaultWorld.CreateBody(bodyDef);
     }
 
     void CreateMouseJoint()
@@ -78,7 +78,7 @@ public class ScoopController : MonoBehaviour, IStageInitializable
         jointDef.enableSpring = true;
         jointDef.springFrequency = MouseSpringFrequency;
         jointDef.springDamping = MouseSpringDamping;
-        _mouseJoint = StageManager.World.CreateJoint(jointDef);
+        _mouseJoint = PhysicsWorld.defaultWorld.CreateJoint(jointDef);
     }
 
     void CreateRimJoint()
@@ -99,6 +99,6 @@ public class ScoopController : MonoBehaviour, IStageInitializable
         jointDef.springFrequency = RimSpringFrequency;
         jointDef.springDamping = RimSpringDamping;
         jointDef.collideConnected = true;
-        _rimJoint = StageManager.World.CreateJoint(jointDef);
+        _rimJoint = PhysicsWorld.defaultWorld.CreateJoint(jointDef);
     }
 }

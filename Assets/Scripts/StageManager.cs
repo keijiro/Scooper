@@ -9,32 +9,11 @@ public interface IStageInitializable
 
 public class StageManager : MonoBehaviour
 {
-    [field:SerializeField] PhysicsWorldDefinition _worldDefinition = PhysicsWorldDefinition.defaultDefinition;
-    [SerializeField] MonoBehaviour[] _initializers = Array.Empty<MonoBehaviour>();
+    [SerializeField] MonoBehaviour[] _initializers = null;
 
-    public static PhysicsWorld World { get; private set; }
-
-    void Awake()
+    void Start()
     {
-        if (!World.isValid)
-            World = PhysicsWorld.Create(_worldDefinition);
-
-        for (var i = 0; i < _initializers.Length; ++i)
-        {
-            var initializer = _initializers[i] as IStageInitializable;
-            if (initializer == null)
-            {
-                Debug.LogError("Initializer does not implement IStageInitializable.", _initializers[i]);
-                continue;
-            }
-
+        foreach (IStageInitializable initializer in _initializers)
             initializer.InitializeStage(this);
-        }
-    }
-
-    void OnDestroy()
-    {
-        if (World.isValid)
-            World.Destroy();
     }
 }
