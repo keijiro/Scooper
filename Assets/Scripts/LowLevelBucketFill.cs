@@ -11,7 +11,8 @@ public class LowLevelBucketFill : MonoBehaviour
     [field: SerializeField] public Vector2 BallPadding { get; set; } = new(0.01f, 0.01f);
     [field: SerializeField] public Vector2 BucketOffset { get; set; }
 
-    PhysicsWorld _physicsWorld;
+    public PhysicsBody BucketBody => _bucketBody;
+
     PhysicsBody _bucketBody;
     (PolygonGeometry bottom, PolygonGeometry left, PolygonGeometry right) _bucketGeometry;
     CircleGeometry _ballGeometry;
@@ -19,16 +20,22 @@ public class LowLevelBucketFill : MonoBehaviour
 
     void Start()
     {
-        var worldDef = PhysicsWorldDefinition.defaultDefinition;
-        _physicsWorld = PhysicsWorld.Create(worldDef);
-
         CreateBucket();
         CreateBalls();
     }
 
     void OnDestroy()
     {
-        if (_physicsWorld.isValid) _physicsWorld.Destroy();
+        if (_bucketBody.isValid)
+            _bucketBody.Destroy();
+
+        for (var i = 0; i < _ballBodies.Count; ++i)
+        {
+            var body = _ballBodies[i];
+            if (body.isValid)
+                body.Destroy();
+        }
+
         _ballBodies.Clear();
     }
 
@@ -38,7 +45,7 @@ public class LowLevelBucketFill : MonoBehaviour
         bodyDef.type = PhysicsBody.BodyType.Kinematic;
         bodyDef.position = (Vector2)transform.position + BucketOffset;
 
-        _bucketBody = _physicsWorld.CreateBody(bodyDef);
+        _bucketBody = PhysicsWorldManager.World.CreateBody(bodyDef);
 
         var size = BucketSize;
         var half = size * 0.5f;
@@ -81,7 +88,7 @@ public class LowLevelBucketFill : MonoBehaviour
             for (var x = 0; x < BallsPerAxis; ++x)
             {
                 bodyDef.position = min + new Vector2(step.x * x, step.y * y);
-                var body = _physicsWorld.CreateBody(bodyDef);
+                var body = PhysicsWorldManager.World.CreateBody(bodyDef);
                 body.CreateShape(_ballGeometry, shapeDef);
                 _ballBodies.Add(body);
             }
@@ -90,8 +97,7 @@ public class LowLevelBucketFill : MonoBehaviour
 
     void Update()
     {
-        if (!_physicsWorld.isValid)
-            return;
+        var world = PhysicsWorldManager.World;
 
         var bucketDebugColor = new Color(0.2f, 0.7f, 0.9f, 1f);
         var ballDebugColor = new Color(0.95f, 0.9f, 0.2f, 1f);
@@ -99,16 +105,16 @@ public class LowLevelBucketFill : MonoBehaviour
         if (_bucketBody.isValid)
         {
             var xform = _bucketBody.transform;
-            _physicsWorld.DrawGeometry(_bucketGeometry.bottom, xform, bucketDebugColor);
-            _physicsWorld.DrawGeometry(_bucketGeometry.left, xform, bucketDebugColor);
-            _physicsWorld.DrawGeometry(_bucketGeometry.right, xform, bucketDebugColor);
+            world.DrawGeometry(_bucketGeometry.bottom, xform, bucketDebugColor);
+            world.DrawGeometry(_bucketGeometry.left, xform, bucketDebugColor);
+            world.DrawGeometry(_bucketGeometry.right, xform, bucketDebugColor);
         }
 
         for (var i = 0; i < _ballBodies.Count; ++i)
         {
             var body = _ballBodies[i];
             if (!body.isValid) continue;
-            _physicsWorld.DrawGeometry(_ballGeometry, body.transform, ballDebugColor);
+            world.DrawGeometry(_ballGeometry, body.transform, ballDebugColor);
         }
     }
 }

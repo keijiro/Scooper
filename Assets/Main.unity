@@ -174,6 +174,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &296814357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 296814359}
+  - component: {fileID: 296814358}
+  m_Layer: 0
+  m_Name: Scoop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &296814358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296814357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c19ea432fa5943e9b34d5cc64408a27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LowLevelScoopController
+  <WorldController>k__BackingField: {fileID: 1622039340}
+  <TargetCamera>k__BackingField: {fileID: 1411473418}
+  <ScoopSize>k__BackingField: {x: 0.7, y: 0.25}
+  <WallThickness>k__BackingField: 0.04
+  <BackWallHeight>k__BackingField: 0.1
+  <HandleLength>k__BackingField: 0.35
+  <SpawnOffset>k__BackingField: {x: 0, y: 0.6}
+  <SpringStrength>k__BackingField: 60
+  <Damping>k__BackingField: 8
+  <MaxSpeed>k__BackingField: 8
+--- !u!4 &296814359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296814357}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &751942952
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,7 +239,7 @@ GameObject:
   - component: {fileID: 751942954}
   - component: {fileID: 751942953}
   m_Layer: 0
-  m_Name: Physics
+  m_Name: Bucket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,9 +263,7 @@ MonoBehaviour:
   <BallRadius>k__BackingField: 0.01
   <BallPadding>k__BackingField: {x: 0.01, y: 0.01}
   <BucketOffset>k__BackingField: {x: 0, y: 0}
-  <DrawDebug>k__BackingField: 1
-  <BucketDebugColor>k__BackingField: {r: 0.2, g: 0.7, b: 0.9, a: 1}
-  <BallDebugColor>k__BackingField: {r: 0.95, g: 0.9, b: 0.2, a: 1}
+  <WorldController>k__BackingField: {fileID: 1622039340}
 --- !u!4 &751942954
 Transform:
   m_ObjectHideFlags: 0
@@ -355,10 +407,108 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1622039339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1622039341}
+  - component: {fileID: 1622039340}
+  m_Layer: 0
+  m_Name: World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1622039340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622039339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff93a61ce831429b84b6ec0d8f26e25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LowLevelWorldController
+  <WorldDefinition>k__BackingField:
+    m_Gravity: {x: 0, y: -9.81}
+    m_SimulationType: 0
+    m_SimulationSubSteps: 4
+    m_SimulationWorkers: 64
+    m_TransformWriteMode: 1
+    m_TransformPlane: 0
+    m_TransformTweening: 1
+    m_SleepingAllowed: 1
+    m_ContinuousAllowed: 1
+    m_ContactFilterCallbacks: 0
+    m_PreSolveCallbacks: 0
+    m_AutoBodyUpdateCallbacks: 0
+    m_AutoContactCallbacks: 0
+    m_AutoTriggerCallbacks: 0
+    m_AutoJointThresholdCallbacks: 0
+    m_BounceThreshold: 1
+    m_ContactHitEventThreshold: 1
+    m_ContactFrequency: 30
+    m_ContactDamping: 10
+    m_ContactSpeed: 3
+    m_MaximumLinearSpeed: 400
+    m_DrawOptions: 4256
+    m_DrawFillOptions: 7
+    m_DrawThickness: 2
+    m_DrawFillAlpha: 0.1
+    m_DrawPointScale: 1
+    m_DrawNormalScale: 1
+    m_DrawImpulseScale: 1
+    m_DrawCapacity: 0
+    m_DrawColors:
+      transformAxisX: {r: 0, g: 1, b: 1, a: 1}
+      transformAxisY: {r: 0, g: 0.5019608, b: 0, a: 1}
+      bodyBad: {r: 1, g: 0, b: 0, a: 1}
+      bodyDisabled: {r: 0.4392157, g: 0.5019608, b: 0.5647059, a: 1}
+      bodyAwake: {r: 0.5647059, g: 0.93333334, b: 0.5647059, a: 1}
+      bodyStatic: {r: 0.4392157, g: 0.5019608, b: 0.5647059, a: 1}
+      bodyKinematic: {r: 0.11764706, g: 0.5647059, b: 1, a: 1}
+      bodyTimeOfImpactEvent: {r: 0, g: 1, b: 0, a: 1}
+      bodyFastCollisions: {r: 0.2509804, g: 0.8784314, b: 0.8156863, a: 1}
+      bodyMovingFast: {r: 0.6784314, g: 1, b: 0.18431373, a: 1}
+      bodySpeedCapped: {r: 1, g: 0.27058825, b: 0, a: 1}
+      shapeTrigger: {r: 0.9607843, g: 0.87058824, b: 0.7019608, a: 1}
+      shapeOther: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+      shapeBounds: {r: 0.4117647, g: 0.4117647, b: 0.4117647, a: 1}
+      contactSpeculative: {r: 0.827451, g: 0.827451, b: 0.827451, a: 1}
+      contactAdded: {r: 0, g: 0.5019608, b: 0, a: 1}
+      contactPersisted: {r: 0, g: 0, b: 1, a: 1}
+      contactNormal: {r: 0.4117647, g: 0.4117647, b: 0.4117647, a: 1}
+      contactImpulse: {r: 1, g: 0, b: 1, a: 1}
+      contactFriction: {r: 1, g: 1, b: 0, a: 1}
+      solverIsland: {r: 0.18431373, g: 0.30980393, b: 0.30980393, a: 1}
+--- !u!4 &1622039341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622039339}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 231048557}
   - {fileID: 1411473419}
+  - {fileID: 1622039341}
   - {fileID: 751942954}
+  - {fileID: 296814359}
