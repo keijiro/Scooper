@@ -299,11 +299,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1890ff84b0d0447388e01c0ef3fda5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LowLevelBallFill
-  <Bucket>k__BackingField: {fileID: 751942955}
-  <BallsPerAxis>k__BackingField: 30
-  <BallRadius>k__BackingField: 0.2
-  <BallPadding>k__BackingField: {x: 0.01, y: 0.01}
-  <BallDensity>k__BackingField: 1
+  <DirtRadius>k__BackingField: 0.2
+  <DirtDensity>k__BackingField: 1
+  <PourRate>k__BackingField: 200
+  <TargetBodyCount>k__BackingField: 900
+  <SpoutCenter>k__BackingField: {x: 0, y: 12}
+  <SpoutSize>k__BackingField: {x: 13, y: 1}
+  <RecycleY>k__BackingField: -10
 --- !u!4 &767570501
 Transform:
   m_ObjectHideFlags: 0
