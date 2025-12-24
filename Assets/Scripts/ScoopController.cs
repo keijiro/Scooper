@@ -38,16 +38,16 @@ public class ScoopController : MonoBehaviour, IStageInitializable
         if (!_mouseBody.isValid)
             return;
 
-        var mouse = Mouse.current;
-        if (TargetCamera == null || mouse == null)
+        var pointer = Pointer.current;
+        if (TargetCamera == null || pointer == null)
             return;
 
-        if (mouse.leftButton.isPressed)
+        if (pointer.press.isPressed)
         {
             if (!_mouseJoint.isValid)
                 CreateMouseJoint();
 
-            var target = (Vector2)TargetCamera.ScreenToWorldPoint(mouse.position.value);
+            var target = (Vector2)TargetCamera.ScreenToWorldPoint(pointer.position.value);
             var mouseTransform = _mouseBody.transform;
             mouseTransform.position = target;
             _mouseBody.transform = mouseTransform;
