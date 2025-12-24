@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Gem2
   m_EditorClassIdentifier: Assembly-CSharp::DirtBodyDefinition
   <Radius>k__BackingField: 1
+  <Sides>k__BackingField: 4
   <Density>k__BackingField: 1
