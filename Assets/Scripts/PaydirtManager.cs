@@ -15,7 +15,10 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
     [field:SerializeField] public Vector2 SpoutSize { get; set; } = new(13, 1);
     [field:SerializeField] public float RecycleY { get; set; } = -10;
 
+    public IReadOnlyList<PhysicsBody> BombBodies => _bombBodies;
+
     readonly List<PhysicsBody> _dirtBodies = new();
+    readonly List<PhysicsBody> _bombBodies = new();
     PhysicsBodyDefinition _bodyDefinition;
     float _spawnAccumulator;
     int _dirtSinceBomb;
@@ -38,6 +41,7 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
         }
 
         _dirtBodies.Clear();
+        _bombBodies.Clear();
     }
 
     void Update()
@@ -56,8 +60,10 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
         while (_spawnAccumulator >= 1f && _dirtBodies.Count < TargetBodyCount)
         {
             _spawnAccumulator -= 1f;
-            var body = CreateDirtBody(GetSpoutPosition(), ChooseDefinition());
+            var body = CreateDirtBody(GetSpoutPosition(), ChooseDefinition(out var isBomb));
             _dirtBodies.Add(body);
+            if (isBomb)
+                _bombBodies.Add(body);
         }
     }
 
@@ -79,11 +85,14 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
     PhysicsBody CreateDirtBody(Vector2 position, DirtBodyDefinition definition)
       => definition.CreateBody(PhysicsWorld.defaultWorld, _bodyDefinition, position);
 
-    DirtBodyDefinition ChooseDefinition()
+    DirtBodyDefinition ChooseDefinition(out bool isBomb)
     {
+        isBomb = false;
+
         if (BombsPerDirt > 0 && _dirtSinceBomb >= BombsPerDirt)
         {
             _dirtSinceBomb = 0;
+            isBomb = true;
             return BombDefinition;
         }
 
