@@ -270,6 +270,7 @@ MonoBehaviour:
   <BucketSize>k__BackingField: {x: 16, y: 16}
   <WallThickness>k__BackingField: 0.5
   <BucketOffset>k__BackingField: {x: 0, y: -1.5}
+  <LeftWallHeightRatio>k__BackingField: 0.75
 --- !u!1 &767570499
 GameObject:
   m_ObjectHideFlags: 0
