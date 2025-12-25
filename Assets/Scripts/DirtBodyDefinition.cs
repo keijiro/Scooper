@@ -8,13 +8,18 @@ public class DirtBodyDefinition : ScriptableObject
     [field:SerializeField] public int Sides { get; set; }
     [field:SerializeField] public float Density { get; set; } = 1f;
 
-    public PhysicsBody CreateBody(PhysicsWorld world, PhysicsBodyDefinition bodyDefinition, Vector2 position)
+    public PhysicsBody CreateBody(
+        PhysicsWorld world,
+        PhysicsBodyDefinition bodyDefinition,
+        Vector2 position,
+        PhysicsShape.ContactFilter contactFilter)
     {
         bodyDefinition.position = position;
         var body = world.CreateBody(bodyDefinition);
 
         var shapeDefinition = PhysicsShapeDefinition.defaultDefinition;
         shapeDefinition.density = Density;
+        shapeDefinition.contactFilter = contactFilter;
 
         if (Sides < 3)
         {

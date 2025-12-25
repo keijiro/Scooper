@@ -34,7 +34,11 @@ public class Tray : MonoBehaviour, IStageInitializable
         bodyDef.position = Bucket.BucketOrigin + baseOffset + TrayOffset;
         _trayBody = PhysicsWorld.defaultWorld.CreateBody(bodyDef);
 
+        var shapeDefinition = PhysicsShapeDefinition.defaultDefinition;
+        shapeDefinition.contactFilter = new PhysicsShape.ContactFilter
+          (Categories.Tray, new PhysicsMask(Categories.Gem, Categories.Bomb), 0);
+
         var geometry = PolygonGeometry.CreateBox(TraySize, 0f);
-        _trayBody.CreateShape(geometry, PhysicsShapeDefinition.defaultDefinition);
+        _trayBody.CreateShape(geometry, shapeDefinition);
     }
 }

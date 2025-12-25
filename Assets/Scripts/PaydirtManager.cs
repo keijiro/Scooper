@@ -71,7 +71,7 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
         {
             _spawnAccumulator -= 1f;
             var definition = ChooseDefinition(out var kind);
-            var body = CreateDirtBody(GetSpoutPosition(), definition);
+            var body = CreateDirtBody(GetSpoutPosition(), definition, kind);
             _dirtBodies.Add(body);
             if (kind == PaydirtKind.Bomb)
                 _bombBodies.Add(body);
@@ -95,8 +95,8 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
         }
     }
 
-    PhysicsBody CreateDirtBody(Vector2 position, DirtBodyDefinition definition)
-      => definition.CreateBody(PhysicsWorld.defaultWorld, _bodyDefinition, position);
+    PhysicsBody CreateDirtBody(Vector2 position, DirtBodyDefinition definition, PaydirtKind kind)
+      => definition.CreateBody(PhysicsWorld.defaultWorld, _bodyDefinition, position, GetContactFilter(kind));
 
     DirtBodyDefinition ChooseDefinition(out PaydirtKind kind)
     {
@@ -121,6 +121,22 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
         _dirtSinceBomb++;
         _dirtSinceGem++;
         return DirtDefinition;
+    }
+
+    PhysicsShape.ContactFilter GetContactFilter(PaydirtKind kind)
+    {
+        var contacts = PhysicsMask.All;
+        var categories = new PhysicsMask(Categories.Dirt);
+
+        if (kind == PaydirtKind.Bomb)
+            categories = new PhysicsMask(Categories.Bomb);
+        else if (kind == PaydirtKind.Gem)
+            categories = new PhysicsMask(Categories.Gem);
+
+        if (kind == PaydirtKind.Dirt)
+            contacts.ResetBit(Categories.Tray);
+
+        return new PhysicsShape.ContactFilter(categories, contacts, 0);
     }
 
     void ResetDirtBody(PhysicsBody body)
