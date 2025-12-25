@@ -5,17 +5,14 @@ using UnityEngine.LowLevelPhysics2D;
 
 public class BombDetonationTester : MonoBehaviour
 {
-    [field:SerializeField] public PaydirtManager PaydirtManager { get; set; }
+    [SerializeField] PaydirtManager _paydirtManager = null;
     [field:SerializeField] public float DetonationSpeedThreshold { get; set; } = 1f;
 
     readonly HashSet<PhysicsBody> _detonatedBodies = new();
 
     void FixedUpdate()
     {
-        if (PaydirtManager == null)
-            return;
-
-        var bombs = PaydirtManager.BombBodies;
+        var bombs = _paydirtManager.BombBodies;
         for (var i = 0; i < bombs.Count; ++i)
         {
             var body = bombs[i];

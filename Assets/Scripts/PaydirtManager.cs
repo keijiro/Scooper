@@ -4,9 +4,9 @@ using UnityEngine.LowLevelPhysics2D;
 
 public class PaydirtManager : MonoBehaviour, IStageInitializable
 {
-    [field:SerializeField] public DirtBodyDefinition DirtDefinition { get; set; }
-    [field:SerializeField] public DirtBodyDefinition BombDefinition { get; set; }
-    [field:SerializeField] public DirtBodyDefinition[] GemDefinitions { get; set; }
+    [SerializeField] DirtBodyDefinition _dirtDefinition = null;
+    [SerializeField] DirtBodyDefinition _bombDefinition = null;
+    [SerializeField] DirtBodyDefinition[] _gemDefinitions = null;
     [field:SerializeField] public float PourRate { get; set; } = 200;
     [field:SerializeField] public int TargetBodyCount { get; set; } = 900;
     [field:SerializeField] public int BombsPerDirt { get; set; } = 30;
@@ -111,21 +111,21 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
         {
             _dirtSinceBomb = 0;
             kind = PaydirtKind.Bomb;
-            return BombDefinition;
+            return _bombDefinition;
         }
 
-        if (GemsPerDirt > 0 && GemDefinitions.Length > 0 && _dirtSinceGem >= GemsPerDirt)
+        if (GemsPerDirt > 0 && _gemDefinitions.Length > 0 && _dirtSinceGem >= GemsPerDirt)
         {
             _dirtSinceGem = 0;
             kind = PaydirtKind.Gem;
-            var definition = GemDefinitions[_gemIndex];
-            _gemIndex = (_gemIndex + 1) % GemDefinitions.Length;
+            var definition = _gemDefinitions[_gemIndex];
+            _gemIndex = (_gemIndex + 1) % _gemDefinitions.Length;
             return definition;
         }
 
         _dirtSinceBomb++;
         _dirtSinceGem++;
-        return DirtDefinition;
+        return _dirtDefinition;
     }
 
     PhysicsShape.ContactFilter GetContactFilter(PaydirtKind kind)
@@ -163,9 +163,9 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
     Vector2 GetSpoutPosition()
     {
         var halfSize = new Vector2(Mathf.Max(0f, SpoutSize.x), Mathf.Max(0f, SpoutSize.y)) * 0.5f;
-        var radius = Mathf.Max(DirtDefinition.Radius, BombDefinition.Radius);
-        for (var i = 0; i < GemDefinitions.Length; ++i)
-            radius = Mathf.Max(radius, GemDefinitions[i].Radius);
+        var radius = Mathf.Max(_dirtDefinition.Radius, _bombDefinition.Radius);
+        for (var i = 0; i < _gemDefinitions.Length; ++i)
+            radius = Mathf.Max(radius, _gemDefinitions[i].Radius);
         var minX = SpoutCenter.x - halfSize.x + radius;
         var maxX = SpoutCenter.x + halfSize.x - radius;
         if (minX > maxX)

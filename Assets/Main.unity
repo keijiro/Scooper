@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f23552917dfe44448c39d8f3eb96296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConsoleManager
-  <Document>k__BackingField: {fileID: 231048556}
+  _document: {fileID: 231048556}
   <MaxLines>k__BackingField: 5
 --- !u!1 &296814357
 GameObject:
@@ -335,9 +335,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1890ff84b0d0447388e01c0ef3fda5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LowLevelBallFill
-  <DirtDefinition>k__BackingField: {fileID: 11400000, guid: e2e09bdb979124ddea4eda74b6ac06eb, type: 2}
-  <BombDefinition>k__BackingField: {fileID: 11400000, guid: 1a1a9cc9505f5456bb1fe4a037e78092, type: 2}
-  <GemDefinitions>k__BackingField:
+  _dirtDefinition: {fileID: 11400000, guid: e2e09bdb979124ddea4eda74b6ac06eb, type: 2}
+  _bombDefinition: {fileID: 11400000, guid: 1a1a9cc9505f5456bb1fe4a037e78092, type: 2}
+  _gemDefinitions:
   - {fileID: 11400000, guid: 0e7b1d499aa5b4b018f748931abdd8de, type: 2}
   - {fileID: 11400000, guid: d4d7b3261cdb245eebb98245e85b214c, type: 2}
   <PourRate>k__BackingField: 200
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 305e55f163cbe43d699719141b5f3b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tray
-  <Bucket>k__BackingField: {fileID: 751942955}
+  _bucket: {fileID: 751942955}
   <TraySize>k__BackingField: {x: 7, y: 0.4}
   <RimWidth>k__BackingField: 1
   <RimHeight>k__BackingField: 1
@@ -480,7 +480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d688054850d415986f0e6500eb3bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BombDetonationTester
-  <PaydirtManager>k__BackingField: {fileID: 767570500}
+  _paydirtManager: {fileID: 767570500}
   <DetonationSpeedThreshold>k__BackingField: 10
 --- !u!4 &1079328226
 Transform:
@@ -526,9 +526,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db524d9f8a494ee9bd9baaed6253358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LowLevelScoopMouseController
-  <Scoop>k__BackingField: {fileID: 296814360}
-  <Bucket>k__BackingField: {fileID: 751942955}
-  <TargetCamera>k__BackingField: {fileID: 1411473418}
+  _scoop: {fileID: 296814360}
+  _bucket: {fileID: 751942955}
+  _targetCamera: {fileID: 1411473418}
   <MouseSpringFrequency>k__BackingField: 1.3
   <MouseSpringDamping>k__BackingField: 1.2
   <RimSpringFrequency>k__BackingField: 0.4
@@ -770,8 +770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc9b3c84081242538b0dd2b6f6a1dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrayGemDetector
-  <Tray>k__BackingField: {fileID: 829800271}
-  <PaydirtManager>k__BackingField: {fileID: 767570500}
+  _tray: {fileID: 829800271}
+  _paydirtManager: {fileID: 767570500}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

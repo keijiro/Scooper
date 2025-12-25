@@ -27,15 +27,11 @@ public class BucketController : MonoBehaviour
 
     void OnEnable()
     {
-        if (_bucket == null || _ui == null)
-            return;
-
         var root = _ui.rootVisualElement;
 
         _flushButton = root.Q<Button>("flush-button");
 
-        if (_flushButton != null)
-            _flushButton.clicked += OnFlushClicked;
+        _flushButton.clicked += OnFlushClicked;
 
         _currentAngle = _bucket.BottomAngle;
         _targetAngle = _currentAngle;
@@ -44,15 +40,11 @@ public class BucketController : MonoBehaviour
 
     void OnDisable()
     {
-        if (_flushButton != null)
-            _flushButton.clicked -= OnFlushClicked;
+        _flushButton.clicked -= OnFlushClicked;
     }
 
     void Update()
     {
-        if (_bucket == null)
-            return;
-
         if (_state == FlushState.Holding)
         {
             _holdTimer -= Time.deltaTime;
@@ -60,8 +52,7 @@ public class BucketController : MonoBehaviour
             {
                 _state = FlushState.Closing;
                 _targetAngle = 0f;
-                if (_paydirtManager != null)
-                    _paydirtManager.RequestInjection();
+                _paydirtManager.RequestInjection();
             }
         }
 

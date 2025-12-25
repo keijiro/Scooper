@@ -7,7 +7,7 @@ public class ConsoleManager : MonoBehaviour
 {
     static ConsoleManager _instance;
 
-    [field:SerializeField] public UIDocument Document { get; set; }
+    [SerializeField] UIDocument _document = null;
     [field:SerializeField] public int MaxLines { get; set; } = 5;
 
     readonly List<string> _lines = new();
@@ -17,13 +17,7 @@ public class ConsoleManager : MonoBehaviour
     {
         _instance = this;
 
-        if (Document == null)
-            Document = GetComponent<UIDocument>();
-
-        if (Document == null)
-            return;
-
-        _textElement = Document.rootVisualElement.Q<TextElement>("console-text");
+        _textElement = _document.rootVisualElement.Q<TextElement>("console-text");
         RefreshText();
     }
 
@@ -48,9 +42,6 @@ public class ConsoleManager : MonoBehaviour
 
     void RefreshText()
     {
-        if (_textElement == null)
-            return;
-
         var builder = new StringBuilder();
         for (var i = 0; i < _lines.Count; ++i)
         {

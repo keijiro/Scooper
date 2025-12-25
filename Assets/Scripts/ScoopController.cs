@@ -3,9 +3,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.LowLevelPhysics2D;
 public class ScoopController : MonoBehaviour, IStageInitializable
 {
-    [field:SerializeField] public Scoop Scoop { get; set; }
-    [field:SerializeField] public Bucket Bucket { get; set; }
-    [field:SerializeField] public Camera TargetCamera { get; set; }
+    [SerializeField] Scoop _scoop = null;
+    [SerializeField] Bucket _bucket = null;
+    [SerializeField] Camera _targetCamera = null;
     [field:SerializeField] public float MouseSpringFrequency { get; set; } = 8f;
     [field:SerializeField] public float MouseSpringDamping { get; set; } = 0.7f;
     [field:SerializeField] public float RimSpringFrequency { get; set; } = 3f;
@@ -17,9 +17,6 @@ public class ScoopController : MonoBehaviour, IStageInitializable
 
     public void InitializeStage(StageManager stage)
     {
-        if (TargetCamera == null)
-            TargetCamera = Camera.main;
-
         CreateMouseBody();
         CreateRimJoint();
     }
@@ -39,7 +36,7 @@ public class ScoopController : MonoBehaviour, IStageInitializable
             return;
 
         var pointer = Pointer.current;
-        if (TargetCamera == null || pointer == null)
+        if (pointer == null)
             return;
 
         if (pointer.press.isPressed)
@@ -47,7 +44,7 @@ public class ScoopController : MonoBehaviour, IStageInitializable
             if (!_mouseJoint.isValid)
                 CreateMouseJoint();
 
-            var target = (Vector2)TargetCamera.ScreenToWorldPoint(pointer.position.value);
+            var target = (Vector2)_targetCamera.ScreenToWorldPoint(pointer.position.value);
             var mouseTransform = _mouseBody.transform;
             mouseTransform.position = target;
             _mouseBody.transform = mouseTransform;
@@ -62,16 +59,16 @@ public class ScoopController : MonoBehaviour, IStageInitializable
     {
         var bodyDef = PhysicsBodyDefinition.defaultDefinition;
         bodyDef.type = PhysicsBody.BodyType.Kinematic;
-        bodyDef.position = Scoop.ScoopBody.transform.position;
+        bodyDef.position = _scoop.ScoopBody.transform.position;
         _mouseBody = PhysicsWorld.defaultWorld.CreateBody(bodyDef);
     }
 
     void CreateMouseJoint()
     {
         var jointDef = PhysicsDistanceJointDefinition.defaultDefinition;
-        jointDef.bodyA = Scoop.ScoopBody;
+        jointDef.bodyA = _scoop.ScoopBody;
         jointDef.bodyB = _mouseBody;
-        jointDef.localAnchorA = new PhysicsTransform(Scoop.TipLocal);
+        jointDef.localAnchorA = new PhysicsTransform(_scoop.TipLocal);
         jointDef.localAnchorB = PhysicsTransform.identity;
         jointDef.distance = 0f;
         jointDef.enableSpring = true;
@@ -82,16 +79,16 @@ public class ScoopController : MonoBehaviour, IStageInitializable
 
     void CreateRimJoint()
     {
-        var bucketHalf = Bucket.BucketSize * 0.5f;
+        var bucketHalf = _bucket.BucketSize * 0.5f;
         var rimLocal = new Vector2(
-            bucketHalf.x - Bucket.WallThickness * 0.5f,
-            bucketHalf.y - Bucket.WallThickness * 0.5f);
-        var bucketBody = Bucket.BucketBody;
+            bucketHalf.x - _bucket.WallThickness * 0.5f,
+            bucketHalf.y - _bucket.WallThickness * 0.5f);
+        var bucketBody = _bucket.BucketBody;
 
         var jointDef = PhysicsDistanceJointDefinition.defaultDefinition;
-        jointDef.bodyA = Scoop.ScoopBody;
+        jointDef.bodyA = _scoop.ScoopBody;
         jointDef.bodyB = bucketBody;
-        jointDef.localAnchorA = new PhysicsTransform(Scoop.HandleTipLocal);
+        jointDef.localAnchorA = new PhysicsTransform(_scoop.HandleTipLocal);
         jointDef.localAnchorB = new PhysicsTransform(rimLocal);
         jointDef.distance = 0f;
         jointDef.enableSpring = true;

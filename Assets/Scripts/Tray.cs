@@ -3,7 +3,7 @@ using UnityEngine.LowLevelPhysics2D;
 
 public class Tray : MonoBehaviour, IStageInitializable
 {
-    [field:SerializeField] public Bucket Bucket { get; set; }
+    [SerializeField] Bucket _bucket = null;
     [field:SerializeField] public Vector2 TraySize { get; set; } = new(2f, 0.4f);
     [field:SerializeField] public float RimWidth { get; set; } = 0.3f;
     [field:SerializeField] public float RimHeight { get; set; } = 0.2f;
@@ -25,7 +25,7 @@ public class Tray : MonoBehaviour, IStageInitializable
 
     void CreateTray()
     {
-        var bucketHalf = Bucket.BucketSize * 0.5f;
+        var bucketHalf = _bucket.BucketSize * 0.5f;
         var trayHalf = TraySize * 0.5f;
         var baseOffset = new Vector2(
             -bucketHalf.x - trayHalf.x - Gap,
@@ -33,7 +33,7 @@ public class Tray : MonoBehaviour, IStageInitializable
 
         var bodyDef = PhysicsBodyDefinition.defaultDefinition;
         bodyDef.type = PhysicsBody.BodyType.Static;
-        bodyDef.position = Bucket.BucketOrigin + baseOffset + TrayOffset;
+        bodyDef.position = _bucket.BucketOrigin + baseOffset + TrayOffset;
         _trayBody = PhysicsWorld.defaultWorld.CreateBody(bodyDef);
 
         var shapeDefinition = PhysicsShapeDefinition.defaultDefinition;

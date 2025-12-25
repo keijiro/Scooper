@@ -5,18 +5,15 @@ using UnityEngine.LowLevelPhysics2D;
 
 public class TrayGemDetector : MonoBehaviour
 {
-    [field:SerializeField] public Tray Tray { get; set; }
-    [field:SerializeField] public PaydirtManager PaydirtManager { get; set; }
+    [SerializeField] Tray _tray = null;
+    [SerializeField] PaydirtManager _paydirtManager = null;
 
     readonly HashSet<PhysicsBody> _gemBodies = new();
     int _gemCount;
 
     void FixedUpdate()
     {
-        if (Tray == null || PaydirtManager == null)
-            return;
-
-        var trayBody = Tray.TrayBody;
+        var trayBody = _tray.TrayBody;
         if (!trayBody.isValid)
             return;
 
@@ -45,7 +42,7 @@ public class TrayGemDetector : MonoBehaviour
 
     void RefreshGemBodies()
     {
-        var gems = PaydirtManager.GemBodies;
+        var gems = _paydirtManager.GemBodies;
         if (_gemCount == gems.Count)
             return;
 
