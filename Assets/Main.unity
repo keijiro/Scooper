@@ -393,6 +393,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Tray
   <Bucket>k__BackingField: {fileID: 751942955}
   <TraySize>k__BackingField: {x: 7, y: 0.4}
+  <RimWidth>k__BackingField: 1
+  <RimHeight>k__BackingField: 1
   <Gap>k__BackingField: 0.5
   <TrayOffset>k__BackingField: {x: 0, y: 4}
 --- !u!1 &964452560

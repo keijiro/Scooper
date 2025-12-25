@@ -5,6 +5,8 @@ public class Tray : MonoBehaviour, IStageInitializable
 {
     [field:SerializeField] public Bucket Bucket { get; set; }
     [field:SerializeField] public Vector2 TraySize { get; set; } = new(2f, 0.4f);
+    [field:SerializeField] public float RimWidth { get; set; } = 0.3f;
+    [field:SerializeField] public float RimHeight { get; set; } = 0.2f;
     [field:SerializeField] public float Gap { get; set; } = 0.1f;
     [field:SerializeField] public Vector2 TrayOffset { get; set; }
 
@@ -40,5 +42,36 @@ public class Tray : MonoBehaviour, IStageInitializable
 
         var geometry = PolygonGeometry.CreateBox(TraySize, 0f);
         _trayBody.CreateShape(geometry, shapeDefinition);
+
+        CreateRims(shapeDefinition);
+    }
+
+    void CreateRims(PhysicsShapeDefinition shapeDefinition)
+    {
+        if (RimWidth <= 0f || RimHeight <= 0f)
+            return;
+
+        var halfSize = TraySize * 0.5f;
+        var topY = halfSize.y;
+        var width = Mathf.Min(RimWidth, TraySize.x);
+
+        var leftVertices = new[]
+        {
+            new Vector2(-halfSize.x, topY),
+            new Vector2(-halfSize.x + width, topY),
+            new Vector2(-halfSize.x, topY + RimHeight)
+        };
+
+        var rightVertices = new[]
+        {
+            new Vector2(halfSize.x, topY),
+            new Vector2(halfSize.x - width, topY),
+            new Vector2(halfSize.x, topY + RimHeight)
+        };
+
+        var leftRim = PolygonGeometry.Create(leftVertices, 0f);
+        var rightRim = PolygonGeometry.Create(rightVertices, 0f);
+        _trayBody.CreateShape(leftRim, shapeDefinition);
+        _trayBody.CreateShape(rightRim, shapeDefinition);
     }
 }
