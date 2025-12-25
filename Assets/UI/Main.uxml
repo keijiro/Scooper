@@ -1,3 +1,8 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <engine:Label text="Scooping Test" style="color: rgb(255, 255, 255);"/>
+    <engine:VisualElement name="root" style="position: absolute; top: 20px; left: 20px; right: 20px;">
+        <engine:VisualElement name="row" style="flex-grow: 1; flex-direction: row;">
+            <engine:Button text="Open" name="open-button"/>
+            <engine:Button text="Close" name="close-button"/>
+        </engine:VisualElement>
+    </engine:VisualElement>
 </engine:UXML>

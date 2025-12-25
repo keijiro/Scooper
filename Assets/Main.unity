@@ -233,6 +233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 751942954}
   - component: {fileID: 751942955}
+  - component: {fileID: 751942956}
   m_Layer: 0
   m_Name: Bucket
   m_TagString: Untagged
@@ -271,6 +272,22 @@ MonoBehaviour:
   <WallThickness>k__BackingField: 0.5
   <BucketOffset>k__BackingField: {x: 0, y: -1.5}
   <LeftWallHeightRatio>k__BackingField: 0.75
+  <BottomOpenAngle>k__BackingField: 60
+  <BottomOpenSpeed>k__BackingField: 180
+--- !u!114 &751942956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751942952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6011aedbda9434832a431f7259bcf2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BucketController
+  _bucket: {fileID: 751942955}
+  _ui: {fileID: 231048556}
 --- !u!1 &767570499
 GameObject:
   m_ObjectHideFlags: 0
