@@ -16,14 +16,23 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
     [field:SerializeField] public float RecycleY { get; set; } = -10;
 
     public IReadOnlyList<PhysicsBody> BombBodies => _bombBodies;
+    public IReadOnlyList<PhysicsBody> GemBodies => _gemBodies;
 
     readonly List<PhysicsBody> _dirtBodies = new();
     readonly List<PhysicsBody> _bombBodies = new();
+    readonly List<PhysicsBody> _gemBodies = new();
     PhysicsBodyDefinition _bodyDefinition;
     float _spawnAccumulator;
     int _dirtSinceBomb;
     int _dirtSinceGem;
     int _gemIndex;
+
+    enum PaydirtKind
+    {
+        Dirt,
+        Bomb,
+        Gem
+    }
 
     public void InitializeStage(StageManager stage)
     {
@@ -42,6 +51,7 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
 
         _dirtBodies.Clear();
         _bombBodies.Clear();
+        _gemBodies.Clear();
     }
 
     void Update()
@@ -60,10 +70,13 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
         while (_spawnAccumulator >= 1f && _dirtBodies.Count < TargetBodyCount)
         {
             _spawnAccumulator -= 1f;
-            var body = CreateDirtBody(GetSpoutPosition(), ChooseDefinition(out var isBomb));
+            var definition = ChooseDefinition(out var kind);
+            var body = CreateDirtBody(GetSpoutPosition(), definition);
             _dirtBodies.Add(body);
-            if (isBomb)
+            if (kind == PaydirtKind.Bomb)
                 _bombBodies.Add(body);
+            else if (kind == PaydirtKind.Gem)
+                _gemBodies.Add(body);
         }
     }
 
@@ -85,20 +98,21 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
     PhysicsBody CreateDirtBody(Vector2 position, DirtBodyDefinition definition)
       => definition.CreateBody(PhysicsWorld.defaultWorld, _bodyDefinition, position);
 
-    DirtBodyDefinition ChooseDefinition(out bool isBomb)
+    DirtBodyDefinition ChooseDefinition(out PaydirtKind kind)
     {
-        isBomb = false;
+        kind = PaydirtKind.Dirt;
 
         if (BombsPerDirt > 0 && _dirtSinceBomb >= BombsPerDirt)
         {
             _dirtSinceBomb = 0;
-            isBomb = true;
+            kind = PaydirtKind.Bomb;
             return BombDefinition;
         }
 
-        if (GemsPerDirt > 0 && _dirtSinceGem >= GemsPerDirt)
+        if (GemsPerDirt > 0 && GemDefinitions.Length > 0 && _dirtSinceGem >= GemsPerDirt)
         {
             _dirtSinceGem = 0;
+            kind = PaydirtKind.Gem;
             var definition = GemDefinitions[_gemIndex];
             _gemIndex = (_gemIndex + 1) % GemDefinitions.Length;
             return definition;
