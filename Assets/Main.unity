@@ -515,7 +515,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 424957183}
-  - component: {fileID: 424957182}
+  - component: {fileID: 424957185}
+  - component: {fileID: 424957184}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -523,22 +524,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &424957182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424957181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac7356a908152497da66ccfccd7899fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DynamicObjectBridge
-  _radius: 0.6
-  _sides: 0
-  _density: 1
-  _category: 4
 --- !u!4 &424957183
 Transform:
   m_ObjectHideFlags: 0
@@ -555,6 +540,40 @@ Transform:
   - {fileID: 300601549}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &424957184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424957181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c304d9d761c1a4bd8a64ff59da9d0418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicBodyBridge
+  _density: 1
+  _category: 4
+  _ignore: 0
+--- !u!114 &424957185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424957181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae958a19ea3b0456c8f724fc19319ee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompositeShapeBuilder
+  _shapes:
+  - Type: 0
+    Center: {x: 0, y: 0}
+    Rotation: 0
+    Radius: 0.6
+    Sides: 0
+    Scale: {x: 0, y: 0}
 --- !u!1 &534811467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,7 +1122,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1417267548}
-  - component: {fileID: 1417267545}
+  - component: {fileID: 1417267550}
+  - component: {fileID: 1417267549}
   m_Layer: 0
   m_Name: Gem 1
   m_TagString: Untagged
@@ -1111,22 +1131,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1417267545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417267544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac7356a908152497da66ccfccd7899fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DynamicObjectBridge
-  _radius: 0.6
-  _sides: 3
-  _density: 1
-  _category: 3
 --- !u!4 &1417267548
 Transform:
   m_ObjectHideFlags: 0
@@ -1143,6 +1147,40 @@ Transform:
   - {fileID: 1016791733}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1417267549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417267544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c304d9d761c1a4bd8a64ff59da9d0418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicBodyBridge
+  _density: 1
+  _category: 3
+  _ignore: 0
+--- !u!114 &1417267550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417267544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae958a19ea3b0456c8f724fc19319ee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompositeShapeBuilder
+  _shapes:
+  - Type: 1
+    Center: {x: 0, y: 0}
+    Rotation: 0
+    Radius: 0.6
+    Sides: 3
+    Scale: {x: 0, y: 0}
 --- !u!1 &1438455088
 GameObject:
   m_ObjectHideFlags: 0
@@ -1478,7 +1516,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1733157984}
-  - component: {fileID: 1733157983}
+  - component: {fileID: 1733157986}
+  - component: {fileID: 1733157985}
   m_Layer: 0
   m_Name: Gem 2
   m_TagString: Untagged
@@ -1486,22 +1525,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1733157983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733157982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac7356a908152497da66ccfccd7899fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DynamicObjectBridge
-  _radius: 0.6
-  _sides: 5
-  _density: 1
-  _category: 3
 --- !u!4 &1733157984
 Transform:
   m_ObjectHideFlags: 0
@@ -1518,6 +1541,40 @@ Transform:
   - {fileID: 1676489348}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1733157985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733157982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c304d9d761c1a4bd8a64ff59da9d0418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicBodyBridge
+  _density: 1
+  _category: 3
+  _ignore: 0
+--- !u!114 &1733157986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733157982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae958a19ea3b0456c8f724fc19319ee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompositeShapeBuilder
+  _shapes:
+  - Type: 1
+    Center: {x: 0, y: 0}
+    Rotation: 0
+    Radius: 0.6
+    Sides: 5
+    Scale: {x: 0, y: 0}
 --- !u!1 &1763995851
 GameObject:
   m_ObjectHideFlags: 0

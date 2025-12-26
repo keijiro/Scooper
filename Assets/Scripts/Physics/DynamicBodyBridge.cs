@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.LowLevelPhysics2D;
 
-public class DynamicObjectBridge : MonoBehaviour
+public class DynamicBodyBridge : MonoBehaviour
 {
     #region Editable Fields
 
-    [SerializeField] float _radius = 0.2f;
-    [SerializeField] int _sides = 0;
-    [SerializeField] float _density = 1;
+    [SerializeField] float _density = 1f;
     [SerializeField] Categories _category = Categories.Default;
+    [SerializeField] Categories _ignore = Categories.None;
 
     #endregion
 
@@ -20,6 +19,7 @@ public class DynamicObjectBridge : MonoBehaviour
 
     #region Physics Body Management
 
+    CompositeShapeBuilder _shapeBuilder;
     PhysicsBody _body;
 
     void CreateBody()
@@ -37,27 +37,10 @@ public class DynamicObjectBridge : MonoBehaviour
 
         var category = new PhysicsMask((int)_category);
         var mask = PhysicsMask.All;
+        mask.ResetBit((int)_ignore);
         shapeDef.contactFilter = new PhysicsShape.ContactFilter(category, mask);
 
-        if (_sides < 3)
-        {
-            var geometry = new CircleGeometry { radius = _radius };
-            _body.CreateShape(geometry, shapeDef);
-        }
-        else
-        {
-            var sides = Mathf.Clamp(_sides, 3, PhysicsConstants.MaxPolygonVertices);
-            var vertices = new Vector2[sides];
-            var step = Mathf.PI * 2f / sides;
-            for (var i = 0; i < sides; ++i)
-            {
-                var angle = step * i;
-                vertices[i] = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * _radius;
-            }
-
-            var geometry = PolygonGeometry.Create(vertices, 0f);
-            _body.CreateShape(geometry, shapeDef);
-        }
+        _shapeBuilder.CreateShapes(_body, shapeDef);
     }
 
     void SyncTransform()
@@ -74,14 +57,31 @@ public class DynamicObjectBridge : MonoBehaviour
 
     #region MonoBehaviour Implementation
 
+    void Awake()
+      => _shapeBuilder = GetComponent<CompositeShapeBuilder>();
+
     void Start()
-      => CreateBody();
+    {
+        if (_shapeBuilder == null)
+            return;
+
+        CreateBody();
+        SyncTransform();
+    }
 
     void OnDestroy()
-      => _body.Destroy();
+    {
+        if (_body.isValid)
+            _body.Destroy();
+    }
 
     void FixedUpdate()
-      => SyncTransform();
+    {
+        if (!_body.isValid)
+            return;
+
+        SyncTransform();
+    }
 
     #endregion
 }
