@@ -5,11 +5,10 @@ using UnityEngine.LowLevelPhysics2D;
 public class PaydirtManager : MonoBehaviour, IStageInitializable
 {
     [SerializeField] float _radius = 0.2f;
-    [SerializeField] float _density = 1f;
-    [field:SerializeField] public float PourRate { get; set; } = 256;
+    [SerializeField] float _density = 1;
+    [field:SerializeField] public float PourRate { get; set; } = 512;
     [field:SerializeField] public int TargetBodyCount { get; set; } = 1024;
-    [field:SerializeField] public Vector2 SpoutCenter { get; set; } = new(0, 12);
-    [field:SerializeField] public Vector2 SpoutSize { get; set; } = new(13, 1);
+    [SerializeField] SpoutPositionProvider _spout = null;
     [field:SerializeField] public float RecycleY { get; set; } = -10;
 
     readonly List<PhysicsBody> _poolBodies = new();
@@ -20,10 +19,20 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
 
     public void InitializeStage(StageManager stage)
     {
+        EnsureSpout();
         _bodyDefinition = PhysicsBodyDefinition.defaultDefinition;
         _bodyDefinition.type = PhysicsBody.BodyType.Dynamic;
         CreatePool();
         RequestInjection();
+    }
+
+    void Awake()
+      => EnsureSpout();
+
+    void EnsureSpout()
+    {
+        if (_spout == null)
+            _spout = GetComponent<SpoutPositionProvider>();
     }
 
     void OnDestroy()
@@ -101,7 +110,7 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
     void ActivateBody(PhysicsBody body)
     {
         body.enabled = true;
-        body.SetAndWriteTransform(new PhysicsTransform(GetSpoutPosition()));
+        body.SetAndWriteTransform(new PhysicsTransform(_spout.GetPosition()));
         body.linearVelocity = Vector2.zero;
         body.angularVelocity = 0f;
     }
@@ -114,24 +123,6 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
         _poolBodies.Add(body);
     }
 
-    Vector2 GetSpoutPosition()
-    {
-        var halfSize = new Vector2(Mathf.Max(0f, SpoutSize.x), Mathf.Max(0f, SpoutSize.y)) * 0.5f;
-        var minX = SpoutCenter.x - halfSize.x + _radius;
-        var maxX = SpoutCenter.x + halfSize.x - _radius;
-        if (minX > maxX)
-            minX = maxX = SpoutCenter.x;
-        var x = Random.Range(minX, maxX);
-
-        var minY = SpoutCenter.y - halfSize.y + _radius;
-        var maxY = SpoutCenter.y + halfSize.y - _radius;
-        if (minY > maxY)
-            minY = maxY = SpoutCenter.y;
-        var y = Random.Range(minY, maxY);
-
-        return new Vector2(x, y);
-    }
-
     void CreatePool()
     {
         _poolBodies.Clear();
@@ -141,7 +132,7 @@ public class PaydirtManager : MonoBehaviour, IStageInitializable
 
         for (var i = 0; i < TargetBodyCount; ++i)
         {
-            var body = CreateDirtBody(GetSpoutPosition());
+            var body = CreateDirtBody(_spout.GetPosition());
             body.enabled = false;
 
             _poolBodies.Add(body);
