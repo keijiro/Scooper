@@ -18,6 +18,8 @@ public class ScoopController : MonoBehaviour
     [Space]
     [SerializeField] Camera _targetCamera = null;
     [SerializeField] InputHandler _input = null;
+    [SerializeField] LineRenderer _anchorLine = null;
+    [SerializeField] LineRenderer _pickerLine = null;
 
     #endregion
 
@@ -49,7 +51,10 @@ public class ScoopController : MonoBehaviour
     #region MonoBehaviour Implementation
 
     void Start()
-      => CreatePickerBody();
+    {
+        CreatePickerBody();
+        UpdateLines();
+    }
 
     void OnDestroy()
     {
@@ -62,16 +67,19 @@ public class ScoopController : MonoBehaviour
     {
         UpdatePickerBody(_input.Position);
 
-        if (!_scoop.body.isValid) return;
+        if (_scoop.body.isValid)
+        {
+            if (_input.IsPressed)
+            {
+                if (!_pickerJoint.isValid) CreatePickerJoint();
+            }
+            else
+            {
+                if (_pickerJoint.isValid) _pickerJoint.Destroy();
+            }
+        }
 
-        if (_input.IsPressed)
-        {
-            if (!_pickerJoint.isValid) CreatePickerJoint();
-        }
-        else
-        {
-            if (_pickerJoint.isValid) _pickerJoint.Destroy();
-        }
+        UpdateLines();
     }
 
     #endregion
@@ -138,6 +146,28 @@ public class ScoopController : MonoBehaviour
         jointDef.collideConnected = true;
 
         _anchorJoint = PhysicsWorld.defaultWorld.CreateJoint(jointDef);
+    }
+
+    #endregion
+
+    #region Line Rendering
+
+    void UpdateLines()
+    {
+        _anchorLine.enabled = _anchorJoint.isValid;
+        _pickerLine.enabled = _pickerJoint.isValid;
+
+        if (_anchorLine.enabled)
+        {
+            _anchorLine.SetPosition(0, _scoop.rim.position);
+            _anchorLine.SetPosition(1, _anchorPoint.position);
+        }
+
+        if (_pickerLine.enabled)
+        {
+            _pickerLine.SetPosition(0, _scoop.tip.position);
+            _pickerLine.SetPosition(1, _pickerBody.transform.position);
+        }
     }
 
     #endregion
