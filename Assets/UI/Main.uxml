@@ -4,6 +4,5 @@
         <engine:VisualElement name="row" style="flex-grow: 1; flex-direction: row;">
             <engine:Button text="Flush" name="flush-button"/>
         </engine:VisualElement>
-        <engine:Label text="Console" name="console-text" style="color: rgb(212, 212, 212);"/>
     </engine:VisualElement>
 </engine:UXML>

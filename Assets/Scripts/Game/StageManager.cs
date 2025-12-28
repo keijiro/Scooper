@@ -39,8 +39,6 @@ public class StageManager : MonoBehaviour
 
     async void OnFlushClicked()
     {
-        ConsoleManager.AddLine("Flush started.");
-
         _bucketAnimation.Play("HatchOpen");
         _scoopController.ThrowScoopInstance();
 
