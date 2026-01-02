@@ -11,6 +11,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] ScoopController _scoopController = null;
     [SerializeField] BalloonController _balloonController = null;
     [SerializeField] Animation _bucketAnimation = null;
+    [SerializeField] ParticleSystem _coinFountain = null;
     [Space]
     [SerializeField] TrayController _trayPrefab = null;
 
@@ -91,14 +92,20 @@ public class StageManager : MonoBehaviour
             {
                 _balloonController.HideMessage();
                 _tray.StartExit();
-                await Awaitable.WaitForSecondsAsync(1);
+                await Awaitable.WaitForSecondsAsync(1.5f);
             }
             else
             {
                 if (success)
+                {
                     _balloonController.ShowGoodMessage();
+                    _coinFountain.Emit(20);
+                }
                 else
+                {
                     _balloonController.ShowBadMessage();
+                    _coinFountain.Emit(1);
+                }
 
                 await Awaitable.WaitForSecondsAsync(0.5f);
                 _tray.StartExit();
