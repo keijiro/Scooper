@@ -14,6 +14,16 @@
     border-radius: 9px;
 }
 
+.unity-button:hover {
+    background-color: rgb(230, 214, 88);
+    border-color: rgb(189, 122, 98);
+}
+
+.unity-button:active {
+    background-color: rgb(156, 145, 36);
+    border-color: rgb(124, 72, 56);
+}
+
 .balloon {
     position: absolute;
     left: 30px;
