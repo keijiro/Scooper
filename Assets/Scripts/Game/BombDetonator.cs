@@ -19,18 +19,34 @@ public sealed class BombDetonator : MonoBehaviour
     float GetMaxNormalSpeed()
     {
         var maxSpeed = 0f;
+        var bombSpeed = _body.linearVelocity.sqrMagnitude;
 
         using var contacts = _body.GetContacts(Allocator.Temp);
 
         for (var i = 0; i < contacts.Length; ++i)
         {
-            var manifold = contacts[i].manifold;
+            var contact = contacts[i];
+            var otherShape = contact.shapeA.body == _body ? contact.shapeB : contact.shapeA;
+            var otherBody = otherShape.body;
+            if (!ShouldConsiderContact(otherShape, otherBody, bombSpeed)) continue;
+
+            var manifold = contact.manifold;
             var points = manifold.points;
             for (var p = 0; p < manifold.pointCount; ++p)
                 maxSpeed = Mathf.Max(maxSpeed, Mathf.Abs(points[p].normalVelocity));
         }
 
         return maxSpeed;
+    }
+
+    bool ShouldConsiderContact(PhysicsShape otherShape, PhysicsBody otherBody, float bombSpeed)
+    {
+        var otherCategories = otherShape.contactFilter.categories;
+        var scoopBit = 1UL << (int)Categories.Scoop;
+        if ((otherCategories.bitMask & scoopBit) != 0) return true;
+
+        var otherSpeed = otherBody.linearVelocity.sqrMagnitude;
+        return bombSpeed > otherSpeed;
     }
 
     #endregion

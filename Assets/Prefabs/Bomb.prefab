@@ -187,4 +187,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BombDetonator
   _speedThreshold: 10
-  _activationDelay: 3
+  _activationDelay: 5

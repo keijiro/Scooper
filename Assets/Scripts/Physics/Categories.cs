@@ -1,1 +1,1 @@
-public enum Categories { None, Default, Dirt, Item, Trigger }
+public enum Categories { None, Default, Dirt, Item, Trigger, Scoop }

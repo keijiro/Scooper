@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DynamicBodyBridge
   _density: 1
-  _category: 1
+  _category: 5
   _ignore: 0
 --- !u!114 &4344358071832559283
 MonoBehaviour:
