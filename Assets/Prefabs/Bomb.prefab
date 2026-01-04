@@ -186,5 +186,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d688054850d415986f0e6500eb3bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BombDetonator
-  _speedThreshold: 10
+  _speedThreshold: 12
   _activationDelay: 5

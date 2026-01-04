@@ -42,11 +42,9 @@ public sealed class BombDetonator : MonoBehaviour
     bool ShouldConsiderContact(PhysicsShape otherShape, PhysicsBody otherBody, float bombSpeed)
     {
         var otherCategories = otherShape.contactFilter.categories;
-        var scoopBit = 1UL << (int)Categories.Scoop;
+        var scoopBit = (1UL << (int)Categories.Scoop) | (1UL << (int)Categories.Item);
         if ((otherCategories.bitMask & scoopBit) != 0) return true;
-
-        var otherSpeed = otherBody.linearVelocity.sqrMagnitude;
-        return bombSpeed > otherSpeed;
+        return bombSpeed > _speedThreshold;
     }
 
     #endregion
