@@ -12,7 +12,7 @@ public sealed class StageManager : MonoBehaviour
     [SerializeField] ScoopController _scoopController = null;
     [SerializeField] BalloonController _balloonController = null;
     [SerializeField] Animation _bucketAnimation = null;
-    [SerializeField] ParticleSystem _coinFountain = null;
+    [SerializeField] Scoreboard _scoreboard = null;
     [SerializeField] ExplosionEffect _explosionEffect = null;
     [Space]
     [SerializeField] TrayController _trayPrefab = null;
@@ -103,12 +103,12 @@ public sealed class StageManager : MonoBehaviour
                 if (success)
                 {
                     _balloonController.ShowGoodMessage();
-                    _coinFountain.Emit(20);
+                    _scoreboard.Award();
                 }
                 else
                 {
                     _balloonController.ShowBadMessage();
-                    _coinFountain.Emit(1);
+                    _scoreboard.Tip();
                 }
 
                 await Awaitable.WaitForSecondsAsync(0.5f);

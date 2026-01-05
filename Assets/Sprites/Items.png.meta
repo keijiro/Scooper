@@ -241,6 +241,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Heart
+      rect:
+        serializedVersion: 2
+        x: 1095
+        y: 76
+        width: 283
+        height: 255
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b13cf06c2a7c34345a15f899774bc482
+      internalID: -591155909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -261,6 +283,7 @@ TextureImporter:
       Gem2: -690032841
       Gem3: 731562364
       Gem4: 2012839825
+      Heart: -591155909
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
