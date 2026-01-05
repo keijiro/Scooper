@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.LowLevelPhysics2D;
 using UnityEngine.UIElements;
 
 public class StageManager : MonoBehaviour
@@ -14,6 +15,9 @@ public class StageManager : MonoBehaviour
     [SerializeField] ParticleSystem _coinFountain = null;
     [SerializeField] ParticleSystem[] _explosionFx = null;
     [SerializeField] CameraShake _cameraShake = null;
+    [SerializeField] float _explosionRadius = 1.5f;
+    [SerializeField] float _explosionFalloff = 2f;
+    [SerializeField] float _explosionImpulse = 8f;
     [Space]
     [SerializeField] TrayController _trayPrefab = null;
 
@@ -91,6 +95,15 @@ public class StageManager : MonoBehaviour
             if (GameState.DetonatedBomb != null)
             {
                 var pos = GameState.DetonatedBomb.transform.position;
+                var explodeDef = new PhysicsWorld.ExplosionDefinition
+                {
+                    position = pos,
+                    radius = _explosionRadius,
+                    falloff = _explosionFalloff,
+                    impulsePerLength = _explosionImpulse,
+                    hitCategories = PhysicsMask.All
+                };
+                PhysicsWorld.defaultWorld.Explode(explodeDef);
                 foreach (var fx in _explosionFx)
                 {
                     fx.transform.position = pos;

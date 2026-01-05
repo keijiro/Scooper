@@ -16076,6 +16076,9 @@ MonoBehaviour:
   - {fileID: 894436452}
   - {fileID: 451710743}
   _cameraShake: {fileID: 1411473421}
+  _explosionRadius: 6
+  _explosionFalloff: 3
+  _explosionImpulse: 4
   _trayPrefab: {fileID: 6018755574100643915, guid: b4cf7e6511a1a4c22a1dd2765d633bd7, type: 3}
 --- !u!4 &1622039341
 Transform:
