@@ -444,6 +444,38 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!1 &387670827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 387670828}
+  m_Layer: 0
+  m_Name: Shake
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &387670828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387670827}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1411473419}
+  m_Father: {fileID: 1227057826}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &409404945
 GameObject:
   m_ObjectHideFlags: 0
@@ -15650,6 +15682,38 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1227057825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1227057826}
+  m_Layer: 0
+  m_Name: Camera System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1227057826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227057825}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 387670828}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1411473415
 GameObject:
   m_ObjectHideFlags: 0
@@ -15662,7 +15726,6 @@ GameObject:
   - component: {fileID: 1411473418}
   - component: {fileID: 1411473416}
   - component: {fileID: 1411473420}
-  - component: {fileID: 1411473421}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -15773,12 +15836,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1411473415}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 387670828}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1411473420
 MonoBehaviour:
@@ -15813,21 +15876,6 @@ MonoBehaviour:
   <Downsampling>k__BackingField: 6
   <Opacity>k__BackingField: 1
   _shader: {fileID: 4800000, guid: 11e94cd5c3fe34771a02e77528668f69, type: 3}
---- !u!114 &1411473421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1411473415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b95f7b4b09d94806b9adc5d8c833db4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraShake
-  _magnitude: 1
-  _duration: 0.75
-  _exponent: 5
 --- !u!1 &1472358975
 GameObject:
   m_ObjectHideFlags: 0
@@ -16047,6 +16095,7 @@ GameObject:
   - component: {fileID: 1622039342}
   - component: {fileID: 1622039343}
   - component: {fileID: 1622039344}
+  - component: {fileID: 1622039345}
   m_Layer: 0
   m_Name: Stage Manager
   m_TagString: Untagged
@@ -16072,13 +16121,7 @@ MonoBehaviour:
   _balloonController: {fileID: 231048558}
   _bucketAnimation: {fileID: 247061325}
   _coinFountain: {fileID: 857537240}
-  _explosionFx:
-  - {fileID: 894436452}
-  - {fileID: 451710743}
-  _cameraShake: {fileID: 1411473421}
-  _explosionRadius: 6
-  _explosionFalloff: 3
-  _explosionImpulse: 4
+  _explosionEffect: {fileID: 1622039345}
   _trayPrefab: {fileID: 6018755574100643915, guid: b4cf7e6511a1a4c22a1dd2765d633bd7, type: 3}
 --- !u!4 &1622039341
 Transform:
@@ -16134,6 +16177,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputHandler
   _ui: {fileID: 231048556}
+--- !u!114 &1622039345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622039339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e67fa5afa105741908055d0500451a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosionEffect
+  _emitters:
+  - {fileID: 451710743}
+  - {fileID: 894436452}
+  _shakeTarget: {fileID: 387670828}
+  _explosionRadius: 6
+  _explosionFalloff: 3
+  _explosionImpulse: 4
+  _shakeMagnitude: 1
+  _shakeDuration: 0.75
+  _shakeExponent: 5
 --- !u!1 &1763995851
 GameObject:
   m_ObjectHideFlags: 0
@@ -16440,7 +16505,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 231048557}
-  - {fileID: 1411473419}
+  - {fileID: 1227057826}
   - {fileID: 1622039341}
   - {fileID: 1054568097}
   - {fileID: 767570501}

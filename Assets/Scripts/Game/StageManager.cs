@@ -1,8 +1,7 @@
 using UnityEngine;
-using UnityEngine.LowLevelPhysics2D;
 using UnityEngine.UIElements;
 
-public class StageManager : MonoBehaviour
+public sealed class StageManager : MonoBehaviour
 {
     #region Editable Fields
 
@@ -13,11 +12,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] BalloonController _balloonController = null;
     [SerializeField] Animation _bucketAnimation = null;
     [SerializeField] ParticleSystem _coinFountain = null;
-    [SerializeField] ParticleSystem[] _explosionFx = null;
-    [SerializeField] CameraShake _cameraShake = null;
-    [SerializeField] float _explosionRadius = 6;
-    [SerializeField] float _explosionFalloff = 3;
-    [SerializeField] float _explosionImpulse = 4;
+    [SerializeField] ExplosionEffect _explosionEffect = null;
     [Space]
     [SerializeField] TrayController _trayPrefab = null;
 
@@ -86,35 +81,19 @@ public class StageManager : MonoBehaviour
                    GameState.DetonatedBomb == null)
                 await Awaitable.FixedUpdateAsync();
 
-            if (GameState.DetonatedBomb != null)
-                FlushContentsAsync().Forget();
+            var detonated = GameState.DetonatedBomb != null;
+
+            if (detonated) FlushContentsAsync().Forget();
 
             var success = _itemDetector.DetectedItem != null &&
                           _itemDetector.DetectedItem.Type == _tray.TargetItemType;
 
-            if (GameState.DetonatedBomb != null)
-            {
-                var pos = GameState.DetonatedBomb.transform.position;
-                var explodeDef = new PhysicsWorld.ExplosionDefinition
-                {
-                    position = pos,
-                    radius = _explosionRadius,
-                    falloff = _explosionFalloff,
-                    impulsePerLength = _explosionImpulse,
-                    hitCategories = PhysicsMask.All
-                };
-                PhysicsWorld.defaultWorld.Explode(explodeDef);
-                foreach (var fx in _explosionFx)
-                {
-                    fx.transform.position = pos;
-                    fx.Play();
-                }
-                _cameraShake.Shake();
-            }
+            if (detonated)
+                _explosionEffect.Explode(GameState.DetonatedBomb);
 
             await Awaitable.WaitForSecondsAsync(0.15f);
 
-            if (GameState.DetonatedBomb != null)
+            if (detonated)
             {
                 _balloonController.HideMessage();
                 _tray.StartExit();
