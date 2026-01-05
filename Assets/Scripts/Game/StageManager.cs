@@ -21,7 +21,6 @@ public sealed class StageManager : MonoBehaviour
 
     #region Private Fields
 
-    ItemDetector _itemDetector;
     Button _flushButton;
     TrayController _tray;
 
@@ -77,7 +76,7 @@ public sealed class StageManager : MonoBehaviour
             await Awaitable.WaitForSecondsAsync(1);
             _balloonController.ShowDefaultMessage();
 
-            while (_itemDetector.DetectedItem == null &&
+            while (GameState.DetectedItem == null &&
                    GameState.DetonatedBomb == null)
                 await Awaitable.FixedUpdateAsync();
 
@@ -85,8 +84,8 @@ public sealed class StageManager : MonoBehaviour
 
             if (detonated) FlushContentsAsync().Forget();
 
-            var success = _itemDetector.DetectedItem != null &&
-                          _itemDetector.DetectedItem.Type == _tray.TargetItemType;
+            var success = GameState.DetectedItem != null &&
+                          GameState.DetectedItem.Type == _tray.TargetItemType;
 
             if (detonated)
                 _explosionEffect.Explode(GameState.DetonatedBomb);
@@ -121,11 +120,10 @@ public sealed class StageManager : MonoBehaviour
 
             await Awaitable.WaitForSecondsAsync(1);
 
-            var item = _itemDetector.DetectedItem;
+            var item = GameState.DetectedItem;
             if (item != null) Destroy(item.gameObject);
 
-            _itemDetector.ResetDetection();
-            GameState.DetonatedBomb = null;
+            (GameState.DetectedItem, GameState.DetonatedBomb) = (null, null);
 
             _tray = Instantiate(_trayPrefab);
         }
@@ -144,8 +142,6 @@ public sealed class StageManager : MonoBehaviour
 
     void Start()
     {
-        _itemDetector = GetComponent<ItemDetector>();
-
         var root = _ui.rootVisualElement;
         _flushButton = root.Q<Button>("flush-button");
         _flushButton.clicked += OnFlushClicked;

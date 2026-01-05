@@ -4,12 +4,6 @@ using UnityEngine.UIElements;
 
 public sealed class InputHandler : MonoBehaviour
 {
-    #region Editable Fields
-
-    [SerializeField] UIDocument _ui = null;
-
-    #endregion
-
     #region Public Properties
 
     public Vector2 Position => Pointer.current.position.value;
@@ -23,7 +17,8 @@ public sealed class InputHandler : MonoBehaviour
 
     void OnEnable()
     {
-        _area = _ui.rootVisualElement.Q<VisualElement>("game-area");
+        var root = GetComponent<UIDocument>().rootVisualElement;
+        _area = root.Q<VisualElement>("game-area");
         _area.RegisterCallback<PointerDownEvent>(OnPointerDown);
     }
 

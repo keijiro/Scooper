@@ -3,11 +3,6 @@ using UnityEngine.LowLevelPhysics2D;
 
 public sealed class ItemDetector : MonoBehaviour
 {
-    public ItemController DetectedItem { get; private set; }
-
-    public void ResetDetection()
-      => DetectedItem = null;
-
     void OnEnable()
       => PhysicsEvents.PostSimulate += OnPostSimulate;
 
@@ -16,7 +11,7 @@ public sealed class ItemDetector : MonoBehaviour
 
     void OnPostSimulate(PhysicsWorld world, float timeStep)
     {
-        if (DetectedItem != null) return;
+        if (GameState.DetectedItem != null) return;
 
         foreach (var e in world.triggerBeginEvents)
         {
@@ -26,7 +21,7 @@ public sealed class ItemDetector : MonoBehaviour
             var item = go.GetComponent<ItemController>();
             if (item == null) continue;
 
-            DetectedItem = item;
+            GameState.DetectedItem = item;
             break;
         }
     }

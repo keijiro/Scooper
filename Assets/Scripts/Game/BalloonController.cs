@@ -5,7 +5,6 @@ public sealed class BalloonController : MonoBehaviour
 {
     #region Editable Fields
 
-    [SerializeField] UIDocument _ui = null;
     [SerializeField] string _defaultMessage = "ONE MORE\nLIKE THIS\nPLEASE!";
     [SerializeField] string[] _goodMessages = null;
     [SerializeField] string[] _badMessages = null;
@@ -53,8 +52,9 @@ public sealed class BalloonController : MonoBehaviour
 
     void Start()
     {
-        _balloon = _ui.rootVisualElement.Q("balloon");
-        _label = _balloon.Q<Label>("balloon-text");
+        var root = GetComponent<UIDocument>().rootVisualElement;
+        _balloon = root.Q("balloon");
+        _label = root.Q<Label>("balloon-text");
         _time = 1000;
     }
 

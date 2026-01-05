@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8754923779850356459}
   - component: {fileID: 2680574648799430043}
   - component: {fileID: 6018755574100643915}
+  - component: {fileID: -4981143316438275692}
   m_Layer: 0
   m_Name: Tray
   m_TagString: Untagged
@@ -101,6 +102,18 @@ MonoBehaviour:
   _moveDuration: 1
   _itemPrefabs: {fileID: 11400000, guid: de0a5b99f00b94a7c8085c8b7f0e9039, type: 2}
   _targetSpawnPoint: {fileID: 5009083914128571080}
+--- !u!114 &-4981143316438275692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357010453272162089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816927e50bd4348f189d7ef6061b92fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDetector
 --- !u!1 &2669414516018896792
 GameObject:
   m_ObjectHideFlags: 0

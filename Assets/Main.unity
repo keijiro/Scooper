@@ -311,6 +311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 231048557}
   - component: {fileID: 231048556}
+  - component: {fileID: 231048559}
   - component: {fileID: 231048558}
   m_Layer: 0
   m_Name: UI
@@ -390,6 +391,19 @@ MonoBehaviour:
   - THANKS<br>BUT...
   - NOT QUITE...
   - I'LL TAKE<br>IT...
+--- !u!114 &231048559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231048555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b19c72c898c24b34a85b71853506b0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputHandler
+  _ui: {fileID: 231048556}
 --- !u!1 &247061323
 GameObject:
   m_ObjectHideFlags: 0
@@ -15615,7 +15629,7 @@ MonoBehaviour:
   _anchorBody: {fileID: 850060230}
   _anchorPoint: {fileID: 534811468}
   _targetCamera: {fileID: 1411473418}
-  _input: {fileID: 1622039344}
+  _input: {fileID: 231048559}
   _anchorLine: {fileID: 1786897735}
   _pickerLine: {fileID: 1033459264}
 --- !u!4 &1054568097
@@ -16170,8 +16184,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1622039341}
   - component: {fileID: 1622039340}
-  - component: {fileID: 1622039342}
-  - component: {fileID: 1622039344}
   m_Layer: 0
   m_Name: Stage Manager
   m_TagString: Untagged
@@ -16215,31 +16227,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1622039342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1622039339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 816927e50bd4348f189d7ef6061b92fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ContactManager
---- !u!114 &1622039344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1622039339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b19c72c898c24b34a85b71853506b0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputHandler
-  _ui: {fileID: 231048556}
 --- !u!1 &1763995851
 GameObject:
   m_ObjectHideFlags: 0
