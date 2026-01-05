@@ -15,9 +15,9 @@ public class StageManager : MonoBehaviour
     [SerializeField] ParticleSystem _coinFountain = null;
     [SerializeField] ParticleSystem[] _explosionFx = null;
     [SerializeField] CameraShake _cameraShake = null;
-    [SerializeField] float _explosionRadius = 1.5f;
-    [SerializeField] float _explosionFalloff = 2f;
-    [SerializeField] float _explosionImpulse = 8f;
+    [SerializeField] float _explosionRadius = 6;
+    [SerializeField] float _explosionFalloff = 3;
+    [SerializeField] float _explosionImpulse = 4;
     [Space]
     [SerializeField] TrayController _trayPrefab = null;
 
