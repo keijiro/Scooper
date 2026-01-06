@@ -1,11 +1,7 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Main.uss?fileID=7433441132597879392&amp;guid=9da0721249415426db770358eab8f5dd&amp;type=3#Main"/>
     <engine:VisualElement name="game-area" class="game-area"/>
-    <engine:VisualElement name="container" class="hud-container">
-        <engine:VisualElement name="row" class="hud-row">
-            <engine:Button text="RELOAD" name="flush-button"/>
-        </engine:VisualElement>
-    </engine:VisualElement>
+    <engine:Button text="RELOAD" name="reload-button" class="reload-button"/>
     <engine:VisualElement name="balloon" picking-mode="Ignore" class="balloon">
         <engine:VisualElement name="notch" picking-mode="Ignore" class="balloon__notch"/>
         <engine:Label text="ONE MORE&#10;LIKE THIS&#10;PLEASE!" name="balloon-text" picking-mode="Ignore" class="balloon__text"/>
@@ -14,4 +10,5 @@
         <engine:Label text="CREDIT:" name="score-credit" picking-mode="Ignore" class="scoreboard__credit"/>
         <engine:Label text="10,000" name="score-text" picking-mode="Ignore" class="scoreboard__text"/>
     </engine:VisualElement>
+    <engine:VisualElement name="title" picking-mode="Ignore" class="title"/>
 </engine:UXML>

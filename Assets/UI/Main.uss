@@ -56,16 +56,13 @@
     bottom: 0;
 }
 
-.hud-container {
+.reload-button {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 160px;
     right: 20px;
-}
-
-.hud-row {
-    flex-grow: 1;
-    flex-direction: row-reverse;
+    width: 128px;
+    margin: 0px;
+    padding: 0px;
 }
 
 .scoreboard {
@@ -96,4 +93,14 @@
 
 .scoreboard__text-hilight {
     font-size: 54px;
+}
+
+.title {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 128px;
+    height: 64px;
+    background-image: url("project://database/Assets/UI/Title.png?fileID=21300000&amp;guid=15abfc19e1663463585fdae6ed47e7ce&amp;type=3#Title");
+    -unity-background-scale-mode: scale-to-fit;
 }

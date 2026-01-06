@@ -21,7 +21,7 @@ public sealed class StageManager : MonoBehaviour
 
     #region Private Fields
 
-    Button _flushButton;
+    Button _reloadButton;
     TrayController _tray;
 
     #endregion
@@ -52,9 +52,9 @@ public sealed class StageManager : MonoBehaviour
         _scoopController.SpawnScoopInstance();
     }
 
-    async Awaitable FlushContentsAsync()
+    async Awaitable ReloadContentsAsync()
     {
-        _flushButton.SetEnabled(false);
+        _reloadButton.SetEnabled(false);
 
         _bucketAnimation.Play("HatchOpen");
         _scoopController.ThrowScoopInstance();
@@ -66,7 +66,7 @@ public sealed class StageManager : MonoBehaviour
 
         await Awaitable.WaitForSecondsAsync(3);
 
-        _flushButton.SetEnabled(true);
+        _reloadButton.SetEnabled(true);
     }
 
     async Awaitable RunItemDetectionLoopAsync()
@@ -82,7 +82,7 @@ public sealed class StageManager : MonoBehaviour
 
             var detonated = GameState.DetonatedBomb != null;
 
-            if (detonated) FlushContentsAsync().Forget();
+            if (detonated) ReloadContentsAsync().Forget();
 
             var success = GameState.DetectedItem != null &&
                           GameState.DetectedItem.Type == _tray.TargetItemType;
@@ -134,10 +134,10 @@ public sealed class StageManager : MonoBehaviour
 
     #region UI Controllers
 
-    void OnFlushClicked()
+    void OnReloadClicked()
     {
         _scoreboard.Penalize(4);
-        FlushContentsAsync().Forget();
+        ReloadContentsAsync().Forget();
     }
 
     #endregion
@@ -147,8 +147,8 @@ public sealed class StageManager : MonoBehaviour
     void Start()
     {
         var root = _ui.rootVisualElement;
-        _flushButton = root.Q<Button>("flush-button");
-        _flushButton.clicked += OnFlushClicked;
+        _reloadButton = root.Q<Button>("reload-button");
+        _reloadButton.clicked += OnReloadClicked;
 
         InitializeStageAsync().Forget();
     }
