@@ -98,9 +98,9 @@
 .title {
     position: absolute;
     top: 20px;
-    right: 20px;
-    width: 128px;
-    height: 64px;
+    right: 4px;
+    width: 160px;
+    height: 80px;
     background-image: url("project://database/Assets/UI/Title.png?fileID=21300000&amp;guid=15abfc19e1663463585fdae6ed47e7ce&amp;type=3#Title");
     -unity-background-scale-mode: scale-to-fit;
 }

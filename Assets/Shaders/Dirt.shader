@@ -52,7 +52,7 @@ void Vertex(float4 positionOS : POSITION,
     float2 rotated = float2(c * local.x - s * local.y,
                             s * local.x + c * local.y);
 
-    float3 world = float3(pos + rotated, 0);
+    float3 world = TransformObjectToWorld(float3(pos + rotated, 0));
     outPositionCS = TransformWorldToHClip(world);
 
     float rnd = GenerateHashedRandomFloat(quadId);
