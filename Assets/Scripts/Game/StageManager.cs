@@ -97,13 +97,14 @@ public sealed class StageManager : MonoBehaviour
                 _balloonController.HideMessage();
                 _tray.StartExit();
                 await Awaitable.WaitForSecondsAsync(1.5f);
+                _scoreboard.Penalize(20);
             }
             else
             {
                 if (success)
                 {
                     _balloonController.ShowGoodMessage();
-                    _scoreboard.Award();
+                    _scoreboard.Award(20);
                 }
                 else
                 {
@@ -134,7 +135,10 @@ public sealed class StageManager : MonoBehaviour
     #region UI Controllers
 
     void OnFlushClicked()
-      => FlushContentsAsync().Forget();
+    {
+        _scoreboard.Penalize(4);
+        FlushContentsAsync().Forget();
+    }
 
     #endregion
 

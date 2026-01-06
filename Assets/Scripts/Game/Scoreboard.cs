@@ -9,6 +9,7 @@ public sealed class Scoreboard : MonoBehaviour
     [SerializeField] ParticleSystem _coinEmitter = null;
     [SerializeField] ParticleSystem _heartEmitter = null;
     [SerializeField] int _scoreSpeed = 500;
+    [SerializeField] int _animationDelay = 1;
 
     #endregion
 
@@ -18,17 +19,17 @@ public sealed class Scoreboard : MonoBehaviour
     Label _scoreText;
 
     (int current, int display) _score;
+    float _delayTimer;
 
     #endregion
 
     #region Public Methods
 
-    public void Award()
+    public void Award(int amount)
     {
-        _coinEmitter.Emit(20);
         _heartEmitter.Play();
-        _scoreText.AddToClassList("scoreboard__text-hilight");
-        _score.current += 20;
+        _coinEmitter.Emit(amount);
+        _score.current += amount;
     }
 
     public void Tip()
@@ -37,10 +38,8 @@ public sealed class Scoreboard : MonoBehaviour
         _score.current++;
     }
 
-    public void Penalize()
-    {
-        _score.current -= 10;
-    }
+    public void Penalize(int amount)
+      => _score.current -= amount;
 
     #endregion
 
@@ -55,23 +54,32 @@ public sealed class Scoreboard : MonoBehaviour
 
     void Update()
     {
+        if (_score.display == _score.current)
+        {
+            if (_delayTimer > 0)
+            {
+                _delayTimer = Mathf.Max(0, _delayTimer - Time.deltaTime);
+                if (_delayTimer == 0)
+                    _scoreText.RemoveFromClassList("scoreboard__text-hilight");
+            }
+            return;
+        }
+
+        if (_delayTimer == 0)
+        {
+            _scoreText.AddToClassList("scoreboard__text-hilight");
+            _delayTimer = _animationDelay;
+        }
+
         if (_score.display < _score.current)
         {
             _score.display += (int)(_scoreSpeed * Time.deltaTime);
-            if (_score.display >= _score.current)
-            {
-                _score.display = _score.current;
-                _scoreText.RemoveFromClassList("scoreboard__text-hilight");
-            }
+            _score.display = Mathf.Min(_score.display, _score.current);
         }
         else if (_score.display > _score.current)
         {
             _score.display -= (int)(_scoreSpeed * Time.deltaTime);
             _score.display = Mathf.Max(_score.display, _score.current);
-        }
-        else
-        {
-            return;
         }
 
         _scoreText.text = $"{_score.display:N0}";
