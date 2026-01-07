@@ -98,6 +98,7 @@ public class ScoopController : MonoBehaviour
 
     void UpdatePickerBody(Vector2 pos)
     {
+        pos *= _targetCamera.pixelHeight;
         var xform = _pickerBody.transform;
         xform.position = _targetCamera.ScreenToWorldPoint(pos);
         _pickerBody.transform = xform;

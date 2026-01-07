@@ -1,4 +1,6 @@
-:root {
+.root-container {
+    aspect-ratio: 1.777778;
+    margin: auto;
 }
 
 .unity-text-element {
@@ -54,6 +56,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    background-image: url("project://database/Assets/UI/Render.renderTexture?fileID=8400000&amp;guid=7c78181639fe64602ac206adcd789d8e&amp;type=2#Render");
 }
 
 .reload-button {

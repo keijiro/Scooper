@@ -6,14 +6,28 @@ public sealed class InputHandler : MonoBehaviour
 {
     #region Public Properties
 
-    public Vector2 Position => Pointer.current.position.value;
+    public Vector2 Position => CalculateNormalizedPosition();
     public bool IsPressed { get; private set; }
 
     #endregion
 
-    #region MonoBehaviour Implementation
+    #region Private Members
 
     VisualElement _area;
+
+    Vector2 CalculateNormalizedPosition()
+    {
+        var height = _area.resolvedStyle.height;
+        if (height == 0 || float.IsNaN(height)) return Vector2.zero;
+        var screenPos = Pointer.current.position.value;
+        var panelPos = RuntimePanelUtils.ScreenToPanel(_area.panel, screenPos);
+        var localPos = _area.WorldToLocal(panelPos);
+        return localPos / height;
+    }
+
+    #endregion
+
+    #region MonoBehaviour Implementation
 
     void OnEnable()
     {
