@@ -44,9 +44,7 @@ public sealed class TrayController : MonoBehaviour
 
     void Start()
     {
-        TargetItemType = (ItemType)(1 + GameState.ItemSpawnCount % GameState.GemVariationCount);
-        GameState.ItemSpawnCount++;
-
+        TargetItemType = GameState.GetNextTrayItemType();
         var prefab = _itemPrefabs.GetItemPrefab(TargetItemType);
         Instantiate(prefab, _targetSpawnPoint.position, Quaternion.identity);
     }

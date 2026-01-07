@@ -45,7 +45,7 @@ public sealed class StageManager : MonoBehaviour
     {
         _dirtManager.RequestInjection();
         _itemSpawner.StartSpawnBombs(2, 2).Forget();
-        _itemSpawner.StartSpawnGems(6, 2).Forget();
+        _itemSpawner.StartSpawnGems(8, 2).Forget();
 
         await Awaitable.WaitForSecondsAsync(2);
 

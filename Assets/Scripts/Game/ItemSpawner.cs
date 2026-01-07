@@ -32,10 +32,7 @@ public class ItemSpawner : MonoBehaviour
             var rand = Random.value;
             await Awaitable.WaitForSecondsAsync(step * rand);
 
-            var itemType = 
-              isBomb ? ItemType.Bomb
-                     : (ItemType)(1 + (i % GameState.GemVariationCount));
-
+            var itemType = isBomb ? ItemType.Bomb : GameState.GetNextGemType();
             var prefab = _itemPrefabs.GetItemPrefab(itemType);
             var go = Instantiate(prefab, _spout.GetPosition(), Quaternion.identity);
             go.AddComponent<ItemController>().Type = itemType;
