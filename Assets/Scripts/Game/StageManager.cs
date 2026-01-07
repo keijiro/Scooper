@@ -10,9 +10,10 @@ public sealed class StageManager : MonoBehaviour
     [SerializeField] DirtManager _dirtManager = null;
     [SerializeField] ItemSpawner _itemSpawner = null;
     [SerializeField] ScoopController _scoopController = null;
-    [SerializeField] BalloonController _balloonController = null;
     [SerializeField] Animation _bucketAnimation = null;
+    [Space]
     [SerializeField] Scoreboard _scoreboard = null;
+    [SerializeField] BalloonController _balloonController = null;
     [SerializeField] ExplosionEffect _explosionEffect = null;
     [Space]
     [SerializeField] TrayController _trayPrefab = null;
@@ -28,6 +29,7 @@ public sealed class StageManager : MonoBehaviour
 
     #region Game Action Methods (async)
 
+    // Initialization
     async Awaitable InitializeStageAsync()
     {
         await Awaitable.WaitForSecondsAsync(0.1f);
@@ -36,22 +38,22 @@ public sealed class StageManager : MonoBehaviour
 
         await Awaitable.WaitForSecondsAsync(1);
 
-        _tray = Instantiate(_trayPrefab);
-
-        await RunItemDetectionLoopAsync();
+        await RunMainGameLoopAsync();
     }
 
+    // Content injection
     async Awaitable InjectContentsAsync()
     {
         _dirtManager.RequestInjection();
         _itemSpawner.StartSpawnBombs(2, 2).Forget();
         _itemSpawner.StartSpawnGems(8, 2).Forget();
 
-        await Awaitable.WaitForSecondsAsync(2);
+        await Awaitable.WaitForSecondsAsync(2.5f);
 
         _scoopController.SpawnScoopInstance();
     }
 
+    // Reloading action
     async Awaitable ReloadContentsAsync()
     {
         _reloadButton.SetEnabled(false);
@@ -59,7 +61,7 @@ public sealed class StageManager : MonoBehaviour
         _bucketAnimation.Play("HatchOpen");
         _scoopController.ThrowScoopInstance();
 
-        await Awaitable.WaitForSecondsAsync(2);
+        await Awaitable.WaitForSecondsAsync(3);
 
         InjectContentsAsync().Forget();
         _bucketAnimation.Play("HatchClose");
@@ -69,33 +71,51 @@ public sealed class StageManager : MonoBehaviour
         _reloadButton.SetEnabled(true);
     }
 
-    async Awaitable RunItemDetectionLoopAsync()
+    // Main game loop
+    async Awaitable RunMainGameLoopAsync()
     {
         while (true)
         {
+            // Spawn new tray.
+            _tray = Instantiate(_trayPrefab);
+
+            // Default message balloon
             await Awaitable.WaitForSecondsAsync(1);
             _balloonController.ShowDefaultMessage();
 
+            // Wait until:
+            // - item was detected in tray, or
+            // - bomb was detonated
             while (GameState.DetectedItem == null &&
                    GameState.DetonatedBomb == null)
                 await Awaitable.FixedUpdateAsync();
 
+            // Bomb was detonated?
             var detonated = GameState.DetonatedBomb != null;
 
-            if (detonated) ReloadContentsAsync().Forget();
-
-            var success = GameState.DetectedItem != null &&
-                          GameState.DetectedItem.Type == _tray.TargetItemType;
+            // Right item was placed in tray?
+            var success = GameState.DetectedItem != null && _tray != null &&
+                          GameState.DetectedItem?.Type == _tray.TargetItemType;
 
             if (detonated)
+            {
+                // Trigger explosion effect.
                 _explosionEffect.Explode(GameState.DetonatedBomb);
 
+                // Start reloading if not already reloading.
+                if (_reloadButton.enabledSelf) ReloadContentsAsync().Forget();
+            }
+
+            // Short base delay
             await Awaitable.WaitForSecondsAsync(0.15f);
 
             if (detonated)
             {
-                _balloonController.HideMessage();
+                // Start tray exit animation and hide balloon message.
                 _tray.StartExit();
+                _balloonController.HideMessage();
+
+                // Start penalizing score after delay.
                 await Awaitable.WaitForSecondsAsync(1.5f);
                 _scoreboard.Penalize(20);
             }
@@ -103,30 +123,35 @@ public sealed class StageManager : MonoBehaviour
             {
                 if (success)
                 {
-                    _balloonController.ShowGoodMessage();
+                    // Success: Award and good message
                     _scoreboard.Award(20);
+                    _balloonController.ShowGoodMessage();
                 }
                 else
                 {
-                    _balloonController.ShowBadMessage();
+                    // Failure: Tip and bad message
                     _scoreboard.Tip();
+                    _balloonController.ShowBadMessage();
                 }
 
+                // Start tray exit animation after short delay
                 await Awaitable.WaitForSecondsAsync(0.5f);
                 _tray.StartExit();
+
+                // Wait for exit animation to complete
                 await Awaitable.WaitForSecondsAsync(1);
             }
 
+            // Clean up for next turn.
             Destroy(_tray.gameObject);
 
-            await Awaitable.WaitForSecondsAsync(1);
-
-            var item = GameState.DetectedItem;
-            if (item != null) Destroy(item.gameObject);
+            if (GameState.DetectedItem != null)
+                Destroy(GameState.DetectedItem.gameObject);
 
             (GameState.DetectedItem, GameState.DetonatedBomb) = (null, null);
 
-            _tray = Instantiate(_trayPrefab);
+            // Short delay before looping
+            await Awaitable.WaitForSecondsAsync(1);
         }
     }
 
