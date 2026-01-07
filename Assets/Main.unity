@@ -472,7 +472,7 @@ Animation:
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_CullingType: 0
 --- !u!1 &387670827
 GameObject:

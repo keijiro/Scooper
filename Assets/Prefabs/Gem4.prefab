@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 0.57, y: 0.57, z: 0.57}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 492111383600581750}
@@ -142,9 +142,9 @@ MonoBehaviour:
   - Type: 2
     Center: {x: 0, y: 0}
     Rotation: 0
-    Radius: 0.6
+    Radius: 1
     Sides: 4
-    Scale: {x: 0.98, y: 1.05}
+    Scale: {x: 1.38, y: 1.5}
 --- !u!114 &1458792259148203737
 MonoBehaviour:
   m_ObjectHideFlags: 0
