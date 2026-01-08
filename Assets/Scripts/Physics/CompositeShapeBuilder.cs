@@ -38,6 +38,19 @@ public class CompositeShapeBuilder : MonoBehaviour
 
     #endregion
 
+    #region Private Helpers
+
+    PhysicsWorld World => PhysicsWorld.defaultWorld;
+
+    PolygonGeometry BuildRegularPolygonGeometry(in ShapeElement shape)
+    {
+        var geo = GeometryCache.GetRegularPolygon(shape.Sides);
+        var scale = new Vector3(shape.Radius, shape.Radius, 1);
+        return geo.Transform(Matrix4x4.Scale(scale), true);
+    }
+
+    #endregion
+
     #region Shape Creation
 
     void CreateShape(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement shape)
@@ -52,23 +65,24 @@ public class CompositeShapeBuilder : MonoBehaviour
 
     void CreateCircle(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement shape)
     {
-        var circle = new CircleGeometry { center = shape.Center, radius = shape.Radius };
-        body.CreateShape(circle, def);
+        var geo = new CircleGeometry { center = shape.Center, radius = shape.Radius };
+        body.CreateShape(geo, def);
     }
 
     void CreatePolygon(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement shape)
     {
-        var geo = BuildRegularPolygonGeometry(shape);
         var rot = new PhysicsRotate(shape.Rotation * Mathf.Deg2Rad);
         var xform = new PhysicsTransform(shape.Center, rot);
-        body.CreateShape(geo.Transform(xform), def);
+        var geo = BuildRegularPolygonGeometry(shape).Transform(xform);
+        body.CreateShape(geo, def);
     }
 
     void CreateBox(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement shape)
     {
         var rot = new PhysicsRotate(shape.Rotation * Mathf.Deg2Rad);
         var xform = new PhysicsTransform(shape.Center, rot);
-        body.CreateShape(PolygonGeometry.CreateBox(shape.Scale, 0, xform), def);
+        var geo = PolygonGeometry.CreateBox(shape.Scale, 0, xform);
+        body.CreateShape(geo, def);
     }
 
     #endregion
@@ -79,82 +93,41 @@ public class CompositeShapeBuilder : MonoBehaviour
     {
         if (Application.isPlaying) return;
 
-        var world = PhysicsWorld.defaultWorld;
-        var baseXform = PhysicsMath.ToPhysicsTransform(transform, world.transformPlane);
-        var color = Gizmos.color;
+        var xform = PhysicsMath.ToPhysicsTransform
+          (transform, World.transformPlane);
 
-        foreach (var shape in _shapes)
-            DrawShapeGizmo(world, baseXform, color, shape);
+        foreach (var shape in _shapes) DrawShapeGizmo(xform, shape);
     }
 
-    void DrawShapeGizmo(
-        PhysicsWorld world,
-        PhysicsTransform baseXform,
-        Color color,
-        ShapeElement element
-    )
+    void DrawShapeGizmo(PhysicsTransform xform, ShapeElement shape)
     {
-        switch (element.Type)
+        switch (shape.Type)
         {
-            case ShapeType.Circle: DrawCircleGizmo(world, baseXform, color, element); break;
-            case ShapeType.Polygon: DrawPolygonGizmo(world, baseXform, color, element); break;
-            case ShapeType.Box: DrawBoxGizmo(world, baseXform, color, element); break;
+            case ShapeType.Circle: DrawCircleGizmo(xform, shape); break;
+            case ShapeType.Polygon: DrawPolygonGizmo(xform, shape); break;
+            case ShapeType.Box: DrawBoxGizmo(xform, shape); break;
         }
     }
 
-    void DrawCircleGizmo(
-        PhysicsWorld world,
-        PhysicsTransform baseXform,
-        Color color,
-        ShapeElement element
-    )
+    void DrawCircleGizmo(PhysicsTransform xform, ShapeElement shape)
     {
-        var localTransform = new PhysicsTransform(
-            element.Center,
-            new PhysicsRotate(element.Rotation * Mathf.Deg2Rad)
-        );
-        var worldTransform = baseXform.MultiplyTransform(localTransform);
-        var circle = new CircleGeometry { radius = element.Radius };
-        world.DrawGeometry(circle, worldTransform, color);
+        var geo = new CircleGeometry{ center = shape.Center, radius = shape.Radius };
+        World.DrawGeometry(geo, xform, Gizmos.color);
     }
 
-    void DrawBoxGizmo(
-        PhysicsWorld world,
-        PhysicsTransform baseXform,
-        Color color,
-        ShapeElement element
-    )
+    void DrawPolygonGizmo(PhysicsTransform xform, ShapeElement shape)
     {
-        var localTransform = new PhysicsTransform(
-            element.Center,
-            new PhysicsRotate(element.Rotation * Mathf.Deg2Rad)
-        );
-        var worldTransform = baseXform.MultiplyTransform(localTransform);
-        var size = new Vector2(Mathf.Abs(element.Scale.x), Mathf.Abs(element.Scale.y));
-        world.DrawBox(worldTransform, size, 0f, color);
+        var rot = new PhysicsRotate(shape.Rotation * Mathf.Deg2Rad);
+        xform = xform.MultiplyTransform(new PhysicsTransform(shape.Center, rot));
+        var geo = BuildRegularPolygonGeometry(shape);
+        World.DrawGeometry(geo, xform, Gizmos.color);
     }
 
-    void DrawPolygonGizmo(
-        PhysicsWorld world,
-        PhysicsTransform baseXform,
-        Color color,
-        ShapeElement element
-    )
+    void DrawBoxGizmo(PhysicsTransform xform, ShapeElement shape)
     {
-        var geometry = BuildRegularPolygonGeometry(element);
-        var localTransform = new PhysicsTransform(
-            element.Center,
-            new PhysicsRotate(element.Rotation * Mathf.Deg2Rad)
-        );
-        var worldTransform = baseXform.MultiplyTransform(localTransform);
-        world.DrawGeometry(geometry, worldTransform, color);
-    }
-
-    PolygonGeometry BuildRegularPolygonGeometry(ShapeElement element)
-    {
-        var geometry = GeometryCache.GetRegularPolygon(element.Sides);
-        var scale = new Vector3(element.Radius, element.Radius, 1f);
-        return geometry.Transform(Matrix4x4.Scale(scale), true);
+        var rot = new PhysicsRotate(shape.Rotation * Mathf.Deg2Rad);
+        xform = xform.MultiplyTransform(new PhysicsTransform(shape.Center, rot));
+        World.DrawBox(xform, shape.Scale, 0, Gizmos.color);
     }
 
     #endregion
