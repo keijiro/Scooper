@@ -42,42 +42,35 @@ public class CompositeShapeBuilder : MonoBehaviour
 
     const int MaxPolygonSides = 10;
 
-    void CreateShape(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement element)
+    void CreateShape(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement shape)
     {
-        switch (element.Type)
+        switch (shape.Type)
         {
-            case ShapeType.Circle: CreateCircle(body, def, element); break;
-            case ShapeType.Polygon: CreatePolygon(body, def, element); break;
-            case ShapeType.Box: CreateBox(body, def, element); break;
+            case ShapeType.Circle: CreateCircle(body, def, shape); break;
+            case ShapeType.Polygon: CreatePolygon(body, def, shape); break;
+            case ShapeType.Box: CreateBox(body, def, shape); break;
         }
     }
 
-    void CreateCircle(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement element)
+    void CreateCircle(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement shape)
     {
-        var circle = new CircleGeometry
-          { center = element.Center, radius = element.Radius };
+        var circle = new CircleGeometry { center = shape.Center, radius = shape.Radius };
         body.CreateShape(circle, def);
     }
 
-    void CreatePolygon(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement element)
+    void CreatePolygon(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement shape)
     {
-        var sides = Mathf.Clamp(element.Sides, 3, MaxPolygonSides);
-        var vertices = new Vector2[sides];
-        for (var i = 0; i < sides; ++i)
-        {
-            var r = (360f * i / sides + element.Rotation) * Mathf.Deg2Rad;
-            var offs = new Vector2(Mathf.Cos(r), Mathf.Sin(r)) * element.Radius;
-            vertices[i] = element.Center + offs;
-        }
-        body.CreateShape(PolygonGeometry.Create(vertices, 0), def);
+        var geo = BuildRegularPolygonGeometry(shape);
+        var rot = new PhysicsRotate(shape.Rotation * Mathf.Deg2Rad);
+        var xform = new PhysicsTransform(shape.Center, rot);
+        body.CreateShape(geo.Transform(xform), def);
     }
 
-    void CreateBox(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement element)
+    void CreateBox(PhysicsBody body, PhysicsShapeDefinition def, ShapeElement shape)
     {
-        var size = new Vector2(Mathf.Abs(element.Scale.x), Mathf.Abs(element.Scale.y));
-        var rot = new PhysicsRotate(element.Rotation * Mathf.Deg2Rad);
-        var xform = new PhysicsTransform(element.Center, rot);
-        body.CreateShape(PolygonGeometry.CreateBox(size, 0, xform), def);
+        var rot = new PhysicsRotate(shape.Rotation * Mathf.Deg2Rad);
+        var xform = new PhysicsTransform(shape.Center, rot);
+        body.CreateShape(PolygonGeometry.CreateBox(shape.Scale, 0, xform), def);
     }
 
     #endregion
@@ -88,46 +81,87 @@ public class CompositeShapeBuilder : MonoBehaviour
     {
         if (Application.isPlaying) return;
 
-        var prevMatrix = Gizmos.matrix;
-        Gizmos.matrix = transform.localToWorldMatrix;
+        var world = PhysicsWorld.defaultWorld;
+        var baseXform = PhysicsMath.ToPhysicsTransform(transform, world.transformPlane);
+        var color = Gizmos.color;
 
-        foreach (var shape in _shapes) DrawShapeGizmo(shape);
-
-        Gizmos.matrix = prevMatrix;
+        foreach (var shape in _shapes)
+            DrawShapeGizmo(world, baseXform, color, shape);
     }
 
-    void DrawShapeGizmo(ShapeElement element)
+    void DrawShapeGizmo(
+        PhysicsWorld world,
+        PhysicsTransform baseXform,
+        Color color,
+        ShapeElement element
+    )
     {
         switch (element.Type)
         {
-            case ShapeType.Circle: Gizmos.DrawWireSphere(element.Center, element.Radius); break;
-            case ShapeType.Polygon: DrawPolygonGizmo(element.Center, element.Radius, element.Sides, element.Rotation); break;
-            case ShapeType.Box: DrawBoxGizmo(element.Center, element.Scale, element.Rotation); break;
+            case ShapeType.Circle: DrawCircleGizmo(world, baseXform, color, element); break;
+            case ShapeType.Polygon: DrawPolygonGizmo(world, baseXform, color, element); break;
+            case ShapeType.Box: DrawBoxGizmo(world, baseXform, color, element); break;
         }
     }
 
-    void DrawBoxGizmo(Vector2 center, Vector2 scale, float rotation)
+    void DrawCircleGizmo(
+        PhysicsWorld world,
+        PhysicsTransform baseXform,
+        Color color,
+        ShapeElement element
+    )
     {
-        var size = new Vector3(Mathf.Abs(scale.x), Mathf.Abs(scale.y), 0f);
-        var rot = Quaternion.Euler(0f, 0f, rotation);
-        var prevMatrix = Gizmos.matrix;
-        Gizmos.matrix = Gizmos.matrix * Matrix4x4.TRS(center, rot, Vector3.one);
-        Gizmos.DrawWireCube(Vector3.zero, size);
-        Gizmos.matrix = prevMatrix;
+        var localTransform = new PhysicsTransform(
+            element.Center,
+            new PhysicsRotate(element.Rotation * Mathf.Deg2Rad)
+        );
+        var worldTransform = baseXform.MultiplyTransform(localTransform);
+        var circle = new CircleGeometry { radius = element.Radius };
+        world.DrawGeometry(circle, worldTransform, color);
     }
 
-    void DrawPolygonGizmo(Vector2 center, float radius, int sides, float rotation)
+    void DrawBoxGizmo(
+        PhysicsWorld world,
+        PhysicsTransform baseXform,
+        Color color,
+        ShapeElement element
+    )
     {
-        var count = Mathf.Clamp(sides, 3, MaxPolygonSides);
-        var r0 = rotation * Mathf.Deg2Rad;
-        var prev = center + new Vector2(Mathf.Cos(r0), Mathf.Sin(r0)) * radius;
-        for (var i = 1; i <= count; ++i)
+        var localTransform = new PhysicsTransform(
+            element.Center,
+            new PhysicsRotate(element.Rotation * Mathf.Deg2Rad)
+        );
+        var worldTransform = baseXform.MultiplyTransform(localTransform);
+        var size = new Vector2(Mathf.Abs(element.Scale.x), Mathf.Abs(element.Scale.y));
+        world.DrawBox(worldTransform, size, 0f, color);
+    }
+
+    void DrawPolygonGizmo(
+        PhysicsWorld world,
+        PhysicsTransform baseXform,
+        Color color,
+        ShapeElement element
+    )
+    {
+        var geometry = BuildRegularPolygonGeometry(element);
+        var localTransform = new PhysicsTransform(
+            element.Center,
+            new PhysicsRotate(element.Rotation * Mathf.Deg2Rad)
+        );
+        var worldTransform = baseXform.MultiplyTransform(localTransform);
+        world.DrawGeometry(geometry, worldTransform, color);
+    }
+
+    PolygonGeometry BuildRegularPolygonGeometry(ShapeElement element)
+    {
+        var count = Mathf.Clamp(element.Sides, 3, MaxPolygonSides);
+        var vertices = new Vector2[count];
+        for (var i = 0; i < count; ++i)
         {
-            var r = (360f * i / count + rotation) * Mathf.Deg2Rad;
-            var next = center + new Vector2(Mathf.Cos(r), Mathf.Sin(r)) * radius;
-            Gizmos.DrawLine(prev, next);
-            prev = next;
+            var r = (360f * i / count) * Mathf.Deg2Rad;
+            vertices[i] = new Vector2(Mathf.Cos(r), Mathf.Sin(r)) * element.Radius;
         }
+        return PolygonGeometry.Create(vertices, 0);
     }
 
     #endregion
