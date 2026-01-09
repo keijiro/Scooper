@@ -27,23 +27,32 @@ a single main thread, the simulation remains performant enough to run smoothly.
 
 ## Where Should I Start?
 
-Unity provides an official sandbox sample project that showcases the Low-Level
-2D Physics features in a comprehensive way. It is highly recommended to try
-this project first to understand what is available and to get a sense of the
-performance characteristics:
+Unity provides an official [sandbox sample project] that showcases the
+Low-Level 2D Physics features in a comprehensive way. It is highly recommended
+to try this project first to understand what is available and to get a sense of
+the performance characteristics:
 
-https://github.com/Unity-Technologies/PhysicsExamples2D/tree/master/LowLevel/Projects/Sandbox
+[sandbox sample project]:
+  https://github.com/Unity-Technologies/PhysicsExamples2D/tree/master/LowLevel/Projects/Sandbox
 
 As a next step, you may consider using AI coding agents with proper guidance.
-As described in the AGENTS.md file of this repository, you should instruct them
+As described in the [AGENTS.md] file of this repository, you should instruct them
 to refer to the latest Unity documentation and the official sample project
 above.
+
+[AGENTS.md]: /AGENTS.md
 
 It is also recommended to explicitly mention Box2D v3 in the system prompt for
 AI agents (as defined in AGENTS.md). While they may not have specific knowledge
 about Unity’s Low-Level 2D Physics API, they generally have a solid
 understanding of Box2D itself, and that knowledge transfers well because the
 wrapper layer in Unity is very thin.
+
+For further documentation, samples, and community-provided insights, see the
+official [Unity Discussions thread].
+
+[Unity Discussions thread]:
+  https://discussions.unity.com/t/low-level-2d-physics-in-unity-6-3/1683247
 
 ## Brief Project Structure
 
