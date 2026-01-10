@@ -30,7 +30,7 @@ a single main thread, the simulation remains performant enough to run smoothly.
 Unity provides an official [sandbox sample project] that showcases the
 Low-Level 2D Physics features in a comprehensive way. It is highly recommended
 to try this project first to understand what is available and to get a sense of
-the performance characteristics:
+the performance characteristics.
 
 [sandbox sample project]:
   https://github.com/Unity-Technologies/PhysicsExamples2D/tree/master/LowLevel/Projects/Sandbox
