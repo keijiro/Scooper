@@ -10,6 +10,6 @@ fi
 
 if [ ! -d LowLevelSamples ]; then
     git clone git@github.com:Unity-Technologies/PhysicsExamples2D.git
-    mv PhysicsExamples2D/LowLevel LowLevelSamples
+    mv PhysicsExamples2D/PhysicsCore2D LowLevelSamples
     rm -rf PhysicsExamples2D
 fi

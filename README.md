@@ -33,7 +33,7 @@ to try this project first to understand what is available and to get a sense of
 the performance characteristics.
 
 [sandbox sample project]:
-  https://github.com/Unity-Technologies/PhysicsExamples2D/tree/master/LowLevel/Projects/Sandbox
+  https://github.com/Unity-Technologies/PhysicsExamples2D/tree/master/PhysicsCore2D/Projects/Sandbox
 
 As a next step, you may consider using AI coding agents with proper guidance.
 As described in the [AGENTS.md] file of this repository, you should instruct them
